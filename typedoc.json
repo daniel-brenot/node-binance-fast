@@ -1,0 +1,7 @@
+{
+    "theme": "default",
+    "highlightTheme": "material-theme-default",
+    "excludePrivate": true,
+    "excludeExternals": true
+
+}
