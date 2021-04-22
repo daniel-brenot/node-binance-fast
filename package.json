@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "typedoc": "rm -R docs && npx typedoc src/*.ts src/**/*.ts --readme none --theme ./node_modules/typedoc-gitlab-wiki-theme/dist",
+    "typedoc": "rm -r docs/*.ts; npx typedoc src/*.ts src/**/*.ts --readme none --disableOutputCheck --theme ./node_modules/typedoc-gitlab-wiki-theme/dist",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
