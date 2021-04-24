@@ -9,6 +9,16 @@ declare interface JSONWebSocket<T> {
     on(event: 'connect' | 'disconnect' | 'reconnect' | 'error' | 'data', listener: Function): this;
 }
 
+/**
+ * Wrapper for websocket with logic for disconnecting and reconnecting.
+ * Emits events for useful information.
+ * Events:  
+ * connect: The websocket wrapper connected
+ * disconnect: The websocket wrapper explicitely disconnected
+ * reconnect: The websocket lost connection and will reconnect
+ * error: The server returned an error or a JSON parse error ocurred
+ * data: JSON data in the webstream.
+ */
 class JSONWebSocket<T> extends EventEmitter {
 
     private ws?: WebSocket;
@@ -63,9 +73,6 @@ class JSONWebSocket<T> extends EventEmitter {
         this.connect();
         return this;
     }
-    
-
- 
 
     /** Checks if the event emitter has any listeners */
     get isEmpty(){
@@ -80,7 +87,7 @@ class JSONWebSocket<T> extends EventEmitter {
      * Connects the websocket and registers various handlers for events
      * and reconnection.
      */
-    connect() {
+    private connect() {
         if (this.connected) return;
         console.log(`Connecting to ${this.url}`)
         this.ws = new WebSocket(this.url);
@@ -96,7 +103,7 @@ class JSONWebSocket<T> extends EventEmitter {
      * Disables reconnection and keepalive behaviour,
      * as well as closing the socket.
      */
-    disconnect() {
+    private disconnect() {
         if (!this.connected) return;
         console.log('disconnecting');
         this.ws?.removeAllListeners();
@@ -104,8 +111,6 @@ class JSONWebSocket<T> extends EventEmitter {
         this.connected = false;
         this.emit('disconnect');
     }
-
-
 
 }
 

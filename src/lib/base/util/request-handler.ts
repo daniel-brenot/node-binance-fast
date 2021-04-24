@@ -10,7 +10,7 @@ const API_KEY_HEADER_NAME = 'X-MBX-APIKEY';
  * Handles REST requests to binance by adding the appropriate headers
  * and sending the data to the provided url
  */
-export class RequestHandler {
+export default class RequestHandler {
 
     constructor(private baseUrl: string, private apiKey: string, private apiSecret: string) {}
 
@@ -26,28 +26,28 @@ export class RequestHandler {
     /**
      * Sends a GET request to the current API 
      */
-    async sendGetRequest<T>(path: string, params?: any): Promise<T>{
+    async sendGetRequest<T>(path: string, weight: number, params?: any): Promise<T>{
         return (await axios.get(`${this.baseUrl}${path}`, {params})).data as T;
     }
 
     /**
      * Sends a PUT request to the current API 
      */
-    async sendPutRequest<T>(path: string, data: {}): Promise<T>{
+    async sendPutRequest<T>(path: string, weight: number, data: {}): Promise<T>{
         return (await axios.put(`${this.baseUrl}${path}`, data)).data as T;
     }
 
     /**
      * Sends a POST request to the current API 
      */
-    async sendPostRequest<T>(path: string, data: {}): Promise<T>{
+    async sendPostRequest<T>(path: string, weight: number, data: {}): Promise<T>{
         return (await axios.post(`${this.baseUrl}${path}`, data)).data as T;
     }
 
     /**
      * Sends a DELETE request to the current API 
      */
-    async sendDeleteRequest<T>(path: string, params?: any): Promise<T>{
+    async sendDeleteRequest<T>(path: string, weight: number, params?: any): Promise<T>{
         return (await axios.delete(`${this.baseUrl}${path}`, {params})).data as T;
     }
 
@@ -55,7 +55,7 @@ export class RequestHandler {
      * Sends a GET request to the current API.  
      * Also adds a HMAC-SHA256 signature to the request.
      */
-    async sendSignedGetRequest<T>(path: string, params?: any): Promise<T>{
+    async sendSignedGetRequest<T>(path: string, weight: number, params?: any): Promise<T>{
         return (await axios.get(`${this.baseUrl}${path}`, {params})).data as T;
     }
 
@@ -63,7 +63,7 @@ export class RequestHandler {
      * Sends a PUT request to the current API.  
      * Also adds a HMAC-SHA256 signature to the request.
      */
-    async sendSignedPutRequest<T>(path: string, data: {}): Promise<T>{
+    async sendSignedPutRequest<T>(path: string, weight: number, data: {}): Promise<T>{
         return (await axios.put(`${this.baseUrl}${path}`, data)).data as T;
     }
 
@@ -71,7 +71,7 @@ export class RequestHandler {
      * Sends a POST request to the current API.  
      * Also adds a HMAC-SHA256 signature to the request.
      */
-    async sendSignedPostRequest<T>(path: string, data: {}): Promise<T>{
+    async sendSignedPostRequest<T>(path: string, weight: number, data: {}): Promise<T>{
         return (await axios.post(`${this.baseUrl}${path}`, data)).data as T;
     }
 
@@ -79,7 +79,7 @@ export class RequestHandler {
      * Sends a DELETE request to the current API.  
      * Also adds a HMAC-SHA256 signature to the request.
      */
-    async sendSignedDeleteRequest<T>(path: string, params?: any): Promise<T>{
+    async sendSignedDeleteRequest<T>(path: string, weight: number, params?: any): Promise<T>{
         return (await axios.delete(`${this.baseUrl}${path}`, {params})).data as T;
     }
 

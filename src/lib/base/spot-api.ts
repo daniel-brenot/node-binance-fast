@@ -1,14 +1,14 @@
-import { RequestHandler } from "./request-handler";
+import RequestHandler from "./util/request-handler";
 
 /**
- * API object for accessing binance REST API
+ * API object for accessing Binance REST API
  * 
  * Data is returned in ascending order. Oldest first, newest last.  
  * All time and timestamp related fields are in milliseconds.  
  * Reference:
  * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md
  */
-export default class BinanceREST {
+export default class SpotAPI {
     
     constructor(private handler: RequestHandler) { }
     
@@ -18,10 +18,10 @@ export default class BinanceREST {
      * Reference:  
      * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#test-connectivity
      */
-    async ping() {
+    async queryPing() {
         const URL = '/api/v3/ping';
         const WEIGHT = 1;
-        await this.handler.sendGetRequest<{}>(URL);
+        await this.handler.sendGetRequest<{}>(URL, WEIGHT);
     }
 
     /**
@@ -32,7 +32,7 @@ export default class BinanceREST {
     async queryTime() {
         const URL = '/api/v3/time';
         const WEIGHT = 1;
-        return await this.handler.sendGetRequest<QueryTimeResponse>(URL);
+        return await this.handler.sendGetRequest<QueryTimeResponse>(URL, WEIGHT);
     }
 
     /**
@@ -43,7 +43,7 @@ export default class BinanceREST {
     async queryExchangeInfo() {
         const URL = '/api/v3/exchangeInfo';
         const WEIGHT = 1;
-        return await this.handler.sendGetRequest<QueryExchangeInfoResponse>(URL);
+        return await this.handler.sendGetRequest<QueryExchangeInfoResponse>(URL, WEIGHT);
     }
 
     /**
@@ -58,7 +58,7 @@ export default class BinanceREST {
     async queryDepth(params: QueryDepthParameters){
         const URL = '/api/v3/depth';
         const WEIGHT = params.limit || 100 / 100;
-        return await this.handler.sendPostRequest<QueryDepthResponse>(URL, params);
+        return await this.handler.sendPostRequest<QueryDepthResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -69,7 +69,7 @@ export default class BinanceREST {
     async queryTrades(params: QueryTradesParameters){
         const URL = '/api/v3/trades';
         const WEIGHT = 1;
-        return await this.handler.sendPostRequest<QueryTradesResponse>(URL, params);
+        return await this.handler.sendPostRequest<QueryTradesResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -80,7 +80,7 @@ export default class BinanceREST {
     async queryHistoricalTrades(params: QueryHistoricalTradesParameters) {
         const URL = '/api/v3/historicalTrades';
         const WEIGHT = 5;
-        return await this.handler.sendPostRequest<QueryHistoricalTradesResponse>(URL, params);
+        return await this.handler.sendPostRequest<QueryHistoricalTradesResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -92,7 +92,7 @@ export default class BinanceREST {
     async queryAggTrades(params: QueryAggTradesParameters) {
         const URL = '/api/v3/aggTrades';
         const WEIGHT = 1;
-        return await this.handler.sendPostRequest<QueryAggTradesResponse>(URL, params);
+        return await this.handler.sendPostRequest<QueryAggTradesResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -105,7 +105,7 @@ export default class BinanceREST {
     async queryKlines(params: QueryKlinesParameters) {
         const URL = '/api/v3/klines';
         const WEIGHT = 1;
-        return await this.handler.sendPostRequest<QueryKlinesResponse>(URL, params);
+        return await this.handler.sendPostRequest<QueryKlinesResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -116,7 +116,7 @@ export default class BinanceREST {
     async queryAvgPrice(params: { symbol: string }) {
         const URL = '/api/v3/avgPrice';
         const WEIGHT = 1;
-        return await this.handler.sendPostRequest<AveragePriceResponse>(URL, params);
+        return await this.handler.sendPostRequest<AveragePriceResponse>(URL, WEIGHT, params);
     }
     
     /**
@@ -134,7 +134,7 @@ export default class BinanceREST {
     async queryTicker24hr(params: QueryTicker24HrParameters) {
         const URL = '/api/v3/ticker/24hr';
         const WEIGHT = params.symbol ? 1: 40;
-        return await this.handler.sendPostRequest<QueryTicker24HrResponse | QueryTicker24HrResponse[]>(URL, params);
+        return await this.handler.sendPostRequest<QueryTicker24HrResponse | QueryTicker24HrResponse[]>(URL, WEIGHT, params);
     }
 
     /**
@@ -152,7 +152,7 @@ export default class BinanceREST {
     async queryTickerPrice(params:{symbol?: string}) {
         const URL = '/api/v3/ticker/price';
         const WEIGHT = params.symbol ? 1: 2;
-        return await this.handler.sendPostRequest<QueryTickerPriceResponse | QueryTickerPriceResponse[]>(URL, params);
+        return await this.handler.sendPostRequest<QueryTickerPriceResponse | QueryTickerPriceResponse[]>(URL, WEIGHT, params);
     }
 
     /**
@@ -169,8 +169,8 @@ export default class BinanceREST {
     async queryBookTicker(params: QueryBookTickerParameters): Promise<QueryBookTickerResponse>;
     async queryBookTicker(params: any) {
         const URL = '/api/v3/ticker/bookTicker';
-        //const WEIGHT = params.symbol  ? 1: 2;
-        return await this.handler.sendGetRequest<QueryBookTickerResponse | QueryBookTickerResponse[]>(URL, params);
+        const WEIGHT = params.symbol ? 1: 2;
+        return await this.handler.sendGetRequest<QueryBookTickerResponse | QueryBookTickerResponse[]>(URL, WEIGHT, params);
     }
     
     /**
@@ -184,7 +184,7 @@ export default class BinanceREST {
     async createOrder(params: CreateOrderParameters) {
         const URL = '/api/v3/order';
         const WEIGHT = 1;
-        return await this.handler.sendPostRequest<OrderResponse>(URL, params);
+        return await this.handler.sendPostRequest<OrderResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -196,7 +196,7 @@ export default class BinanceREST {
     async testOrder(params: TestOrderParameters) {
         const URL = '/api/v3/order/test';
         const WEIGHT = 1;
-        await this.handler.sendPostRequest<{}>(URL, params);
+        await this.handler.sendPostRequest<{}>(URL, WEIGHT, params);
     }
 
     /**
@@ -207,7 +207,7 @@ export default class BinanceREST {
     async queryOrder(params: QueryOrderParameters) {
         const URL = '/api/v3/order';
         const WEIGHT = 1;
-        return await this.handler.sendGetRequest<QueryOrderResponse>(URL, params);
+        return await this.handler.sendGetRequest<QueryOrderResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -218,7 +218,7 @@ export default class BinanceREST {
     async cancelOrder(params: CancelOrderParameters) {
         const URL = '/api/v3/order';
         const WEIGHT = 1;
-        return await this.handler.sendDeleteRequest<CancelOrderResponse>(URL, params);
+        return await this.handler.sendDeleteRequest<CancelOrderResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -229,7 +229,7 @@ export default class BinanceREST {
     async cancelOpenOrders(params: CancelOpenOrdersParameters) {
         const URL = '/api/v3/openOrders';
         const WEIGHT = 1;
-        return await this.handler.sendDeleteRequest<CancelOpenOrdersResponse>(URL, params);
+        return await this.handler.sendDeleteRequest<CancelOpenOrdersResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -239,10 +239,10 @@ export default class BinanceREST {
      */
     async queryOpenOrders(params: Omit<QueryOpenOrdersParameters, 'symbol'>): Promise<QueryOpenOrdersResponse[]>;
     async queryOpenOrders(params: QueryOpenOrdersParameters): Promise<QueryOpenOrdersResponse>;
-    async queryOpenOrders(params: QueryOpenOrdersParameters | Omit<QueryOpenOrdersParameters, 'symbol'>) {
+    async queryOpenOrders(params: any) {
         const URL = '/api/v3/openOrders';
-        //const WEIGHT = params.symbol ? 1 : 40;
-        return await this.handler.sendGetRequest<QueryOpenOrdersResponse | QueryOpenOrdersResponse[]>(URL, params);
+        const WEIGHT = params.symbol ? 1 : 40;
+        return await this.handler.sendGetRequest<QueryOpenOrdersResponse | QueryOpenOrdersResponse[]>(URL, WEIGHT, params);
     }
 
     /**
@@ -254,7 +254,7 @@ export default class BinanceREST {
         const URL = '/api/v3/allOrders';
         // TODO how much without a symbol???
         const WEIGHT = params.symbol ? 5: 0;
-        return await this.handler.sendGetRequest<QueryAllOrdersResponse>(URL, params);
+        return await this.handler.sendGetRequest<QueryAllOrdersResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -265,7 +265,7 @@ export default class BinanceREST {
     async createOCOOrder(params: CreateOCOOrderParameters){
         const URL = '/api/v3/order/oco';
         const WEIGHT = 1;
-        return await this.handler.sendPostRequest<CreateOCOOrderResponse>(URL, params);
+        return await this.handler.sendPostRequest<CreateOCOOrderResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -276,7 +276,7 @@ export default class BinanceREST {
     async cancelOCOOrder(params: CancelOCOOrderParameters) {
         const URL = '/api/v3/orderList';
         const WEIGHT = 1;
-        return await this.handler.sendDeleteRequest<CancelOCOOrderResponse>(URL, params);
+        return await this.handler.sendDeleteRequest<CancelOCOOrderResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -287,7 +287,7 @@ export default class BinanceREST {
     async queryOCOOrder(params: QueryOCOOrderParameters) {
         const URL = '/api/v3/orderList';
         const WEIGHT = 1;
-        return await this.handler.sendGetRequest<QueryOCOOrderResponse>(URL, params);
+        return await this.handler.sendGetRequest<QueryOCOOrderResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -298,7 +298,7 @@ export default class BinanceREST {
     async queryAllOCOOrders(params: QueryAllOCOOrdersParameters) {
         const URL = '/api/v3/allOrderList';
         const WEIGHT = 10;
-        return await this.handler.sendGetRequest<QueryAllOCOOrdersResponse>(URL, params);
+        return await this.handler.sendGetRequest<QueryAllOCOOrdersResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -309,7 +309,7 @@ export default class BinanceREST {
     async queryOpenOCOOrders(params: QueryOpenOCOOrdersParameters) {
         const URL = '/api/v3/openOrderList';
         const WEIGHT = 2;
-        return await this.handler.sendGetRequest<QueryOpenOCOOrdersResponse>(URL, params);
+        return await this.handler.sendGetRequest<QueryOpenOCOOrdersResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -320,7 +320,7 @@ export default class BinanceREST {
     async queryAccountInformation(params: QueryAccountInformationParameters) {
         const URL = '/api/v3/account';
         const WEIGHT = 5;
-        return await this.handler.sendGetRequest<QueryAccountInformationResponse>(URL, params);
+        return await this.handler.sendGetRequest<QueryAccountInformationResponse>(URL, WEIGHT, params);
     }
 
     /**
@@ -332,42 +332,6 @@ export default class BinanceREST {
         const URL = '/api/v3/myTrades';
         // TODO how much without a symbol?
         const WEIGHT = 5;
-        return await this.handler.sendGetRequest<QueryMyTradesResponse>(URL, params);
-    }
-
-    /**
-     * Start a new user data stream.
-     * The stream will close after 60 minutes unless a keepalive is sent.  
-     * Weight: 1  
-     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#user-data-stream-endpoints
-     */
-    async createUserDataStream() {
-        const URL = '/api/v3/userDataStream';
-        const WEIGHT = 1;
-        return await this.handler.sendPostRequest<CreateUserDataStreamResponse>(URL, {});
-    }
-
-    /**
-     * Keepalive a user data stream to prevent a time out.
-     * User data streams will close after 60 minutes.
-     * It's recommended to send a ping about every 30 minutes.  
-     * Weight: 1  
-     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#keepalive-user-data-stream-user_stream
-     */
-    async keepAliveUserDataStream(params: KeepAliveUserDataStreamParameters) {
-        const URL = '/api/v3/userDataStream';
-        const WEIGHT = 1;
-        await this.handler.sendPutRequest<{}>(URL, params);
-    }
-
-    /**
-     * Close out a user data stream.
-     * Weight: 1  
-     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#close-user-data-stream-user_stream
-     */
-    async cancelUserDataStream(params: CancelUserDataStreamParameters) {
-        const URL = '/api/v3/userDataStream';
-        const WEIGHT = 1;
-        await this.handler.sendDeleteRequest<{}>(URL, params);
+        return await this.handler.sendGetRequest<QueryMyTradesResponse>(URL, WEIGHT, params);
     }
 }

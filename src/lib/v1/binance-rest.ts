@@ -1,7 +1,7 @@
 import Beautifier from './beautifier';
 import { callbackify } from 'util';
-import BinanceREST from '../base/binance-rest';
-import { RequestHandler } from '../base/request-handler';
+import BinanceREST from '../base/spot-api';
+import RequestHandler from '../base/util/request-handler';
 
 interface BinanceRestOptions {
     /** Get this from your account on binance.com */
@@ -157,9 +157,9 @@ export default class BinanceRest {
     ping(callback: PingCallback): void ;
     ping(callback?: PingCallback | undefined): any {
         if(callback) {
-            callbackify(this.binance.ping)(callback)
+            callbackify(this.binance.queryPing)(callback)
         } else {
-            return this.binance.ping();
+            return this.binance.queryPing();
         }
     }
 
