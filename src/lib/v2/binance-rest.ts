@@ -1,5 +1,3 @@
-/// <reference path="types/binance-rest.ts" />
-
 import { RESTAPI } from '../base';
 import RequestHandler from '../base/util/request-handler';
 import DriftRequestHandler from './util/drift-request-handler';

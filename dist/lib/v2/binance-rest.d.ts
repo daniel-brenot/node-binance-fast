@@ -1,4 +1,3 @@
-/// <reference path="types/binance-rest.d.ts" />
 /// <reference types="node" />
 import { RESTAPI } from '../base';
 import RequestHandler from '../base/util/request-handler';

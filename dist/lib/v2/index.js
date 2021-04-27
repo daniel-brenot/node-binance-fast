@@ -1,4 +1,6 @@
 "use strict";
+/// <reference path="types/binance-rest.ts" />
+/// <reference path="types/binance-ws.ts" />
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
