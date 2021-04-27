@@ -32,7 +32,7 @@ type BinanceRESTOptions = {
      * Optional, default is 'https://api.binance.com/'.
      * Can be useful in case default url stops working, or to use the test API.
      */
-    baseUrl: string;
+    baseURL?: string;
     /** Optional, defaults to 15000, is the request time out in milliseconds */
     timeout?: number;
     /** 

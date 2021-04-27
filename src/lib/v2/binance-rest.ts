@@ -17,16 +17,16 @@ export default class BinanceREST {
 
     constructor(options: BinanceRESTOptions) {
         const DEFAULT_OPTIONS = {
-            baseUrl: DEFAULT_BASE_URL,
+            baseURL: DEFAULT_BASE_URL,
             timeout: 15000,
             recvWindow: 10000,
             handleDrift: false
         };
         this.options = { ...DEFAULT_OPTIONS, ...options};
         if(options.handleDrift) {
-            this.handler = new DriftRequestHandler(options.apiKey, options.apiSecret, options.baseUrl, this.fixDrift.bind(this));
+            this.handler = new DriftRequestHandler(options.apiKey, options.apiSecret, this.options.baseURL, this.fixDrift.bind(this));
         } else {
-            this.handler = new RequestHandler(options.apiKey, options.apiSecret, options.baseUrl);
+            this.handler = new RequestHandler(options.apiKey, options.apiSecret, this.options.baseURL);
         }
         this.rest = new RESTAPI(this.handler);
     }

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import crypto from 'crypto';
 import qs from 'qs';
 
