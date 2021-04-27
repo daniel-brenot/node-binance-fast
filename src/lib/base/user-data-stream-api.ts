@@ -12,9 +12,10 @@ export default class UserDataStreamAPI {
      * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#user-data-stream-endpoints
      */
      async createUserDataStream() {
-        const URL = '/api/v3/userDataStream';
-        const WEIGHT = 1;
-        return await this.handler.sendPostRequest<CreateUserDataStreamResponse>(URL, WEIGHT, {});
+        const path = 'api/v3/userDataStream';
+        const weight = 1;
+        const method = 'POST';
+        return await this.handler.sendRequest<CreateUserDataStreamResponse>({path, weight, method});
     }
 
     /**
@@ -25,9 +26,10 @@ export default class UserDataStreamAPI {
      * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#keepalive-user-data-stream-user_stream
      */
     async keepAliveUserDataStream(params: KeepAliveUserDataStreamParameters) {
-        const URL = '/api/v3/userDataStream';
-        const WEIGHT = 1;
-        await this.handler.sendPutRequest<{}>(URL, WEIGHT, params);
+        const path = 'api/v3/userDataStream';
+        const weight = 1;
+        const method = 'PUT';
+        await this.handler.sendRequest<{}>({path, weight, method, params});
     }
 
     /**
@@ -36,42 +38,18 @@ export default class UserDataStreamAPI {
      * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#close-user-data-stream-user_stream
      */
     async cancelUserDataStream(params: CancelUserDataStreamParameters) {
-        const URL = '/api/v3/userDataStream';
-        const WEIGHT = 1;
-        await this.handler.sendDeleteRequest<{}>(URL, WEIGHT, params);
+        const path = 'api/v3/userDataStream';
+        const weight = 1;
+        const method = 'DELETE';
+        await this.handler.sendRequest<{}>({path, weight, method, params});
     }
 
     /**
-     * outboundAccountPosition is sent any time an account balance has changed and
-     * contains the assets that were possibly changed by the event that generated the balance change.
-     * 
-     * Reference:  
-     * https://github.com/binance/binance-spot-api-docs/blob/master/user-data-stream.md#account-update
+     * Creates a user data stream websocket.
+     * @param listenerKey The value returned by createUserDataStream
      */
-    onOutboundAccountPosition() {
-        const PATH = `outboundAccountPosition`;
-        return this.websocketHandler.createWebSocket<OutboundAccountPositionPayload>(PATH);
+    onUserData(listenerKey: string) {
+        return this.websocketHandler.createUserDataWebSocket(listenerKey)
     }
-
-    /**
-     * Balance Update occurs during the following:
-     * Deposits or withdrawals from the account
-     * Transfer of funds between accounts (e.g. Spot to Margin)
-     */
-    onBalanceUpdate() {
-        const PATH = `balanceUpdate`;
-        return this.websocketHandler.createWebSocket<BalanceUpdatePayload>(PATH);
-    }
-
-    /**
-     * Orders are updated with the executionReport event.
-     * Average price can be found by doing Z divided by z.
-     * If the order is an OCO, an event will be displayed named ListStatus in addition to the executionReport event.
-     */
-    onOrderUpdate(){
-        const PATH = `executionReport`;
-        return this.websocketHandler.createWebSocket<OrderUpdatePayload>(PATH);
-    }
-
 
 }

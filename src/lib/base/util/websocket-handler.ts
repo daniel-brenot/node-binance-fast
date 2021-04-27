@@ -1,4 +1,5 @@
 import JSONWebSocket from "./json-websocket";
+import UserDataWebSocket from "./user-data-websocket";
 
 /**
  * Helper class for managing websocket creation and
@@ -6,7 +7,7 @@ import JSONWebSocket from "./json-websocket";
  */
 export default class WebSocketHandler {
 
-    constructor(private baseUrl: string, private combinedBaseUrl: string) { }
+    constructor(private baseUrl: string, private combinedBaseUrl: string) {}
 
     /**
      * Creates a new websocket at the provided path.
@@ -22,6 +23,14 @@ export default class WebSocketHandler {
      */
     createCombinedWebSocket<T>(path: string) {
         return new JSONWebSocket<T>(`${this.combinedBaseUrl}${path}`);
+    }
+
+    /**
+     * Creates a user data stream websocket at the provided path
+     * @path
+     */
+    createUserDataWebSocket(path: string) {
+        return new UserDataWebSocket(`${this.baseUrl}${path}`);
     }
 
 }

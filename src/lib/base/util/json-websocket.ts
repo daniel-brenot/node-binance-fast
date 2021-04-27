@@ -6,7 +6,7 @@ declare interface JSONWebSocket<T> {
     on(event: 'connect' | 'disconnect' | 'reconnect', listener: () => void): this;
     on(event: 'error', listener: (err: Error) => void): this;
     on(event: 'data', listener: (value: T) => void): this;
-    on(event: 'connect' | 'disconnect' | 'reconnect' | 'error' | 'data', listener: Function): this;
+    on(event: 'connect' | 'disconnect' | 'reconnect' | 'error' | 'data', listener: (...args: any[]) => void): this;
 }
 
 /**
@@ -21,50 +21,52 @@ declare interface JSONWebSocket<T> {
  */
 class JSONWebSocket<T> extends EventEmitter {
 
-    private ws?: WebSocket;
-    private connected: boolean;
+    protected ws?: WebSocket;
+    protected connected: boolean;
 
     constructor(private url: string) {
         super();
         this.connected = false;
-        this.connect();
     }
 
-    private onMessage(message: WebSocket.Data) {
-        //console.log(message);
-        try {this.emit('data', JSON.parse(message.toString())); }
+    protected onMessage(message: WebSocket.Data) {
+        try { this.emit('data', JSON.parse(message.toString())); }
         catch (err) { this.emit('error', err); }
     }
 
-    private onError(err: Error) {
+    protected onError(err: Error) {
         this.emit('error', err);
     }
 
-    private onPing() {
+    protected onPing() {
         this.ws?.pong();
     }
 
-    private onClose() {
+    protected onClose() {
         this.connect();
     }
 
-    removeListener(event: string | symbol, listener: (...args: any[]) => void): this{
+    removeListener(event: string | symbol, listener: (...args: any[]) => void): this {
         super.removeListener(event, listener);
-        if(this.isEmpty) this.disconnect();
+        if (this.isEmpty) this.disconnect();
         return this;
     }
 
-    removeAllListeners(event?: string | symbol | undefined): this{
+    removeAllListeners(event?: string | symbol | undefined): this {
         super.removeAllListeners(event);
-        if(this.isEmpty) this.disconnect();
+        if (this.isEmpty) this.disconnect();
         return this;
     }
 
-    addListener(event: string | symbol, listener: (...args: any[]) => void): this{
-        console.log('add listener')
+    addListener(event: string | symbol, listener: (...args: any[]) => void): this {
         super.addListener(event, listener);
         this.connect();
         return this;
+    }
+
+    on(event: string, listener: (...args: any[]) => void) {
+        this.connect();
+        return super.on(event, listener);
     }
 
     prependListener(event: string | symbol, listener: (...args: any[]) => void): this {
@@ -75,8 +77,8 @@ class JSONWebSocket<T> extends EventEmitter {
     }
 
     /** Checks if the event emitter has any listeners */
-    get isEmpty(){
-        return !this.eventNames().some(event=>this.listenerCount(event) !== 0);
+    get isEmpty() {
+        return !this.eventNames().some(event => this.listenerCount(event) !== 0);
     }
 
     get isConnected() { return this.connected; }
@@ -87,14 +89,14 @@ class JSONWebSocket<T> extends EventEmitter {
      * Connects the websocket and registers various handlers for events
      * and reconnection.
      */
-    private connect() {
+    protected connect() {
         if (this.connected) return;
-        console.log(`Connecting to ${this.url}`)
+        this.ws?.close();
         this.ws = new WebSocket(this.url);
-        this.ws.on('message', (v)=>this.onMessage(v));
-        this.ws.on('error', (v)=>this.onError(v));
-        this.ws.on('ping', ()=>this.onPing());
-        this.ws.on('close', ()=>this.onClose());
+        this.ws.on('message', (v) => this.onMessage(v));
+        this.ws.on('error', (v) => this.onError(v));
+        this.ws.on('ping', () => this.onPing());
+        this.ws.on('close', () => this.onClose());
         this.connected = true;
         this.emit('connect');
     }
@@ -103,9 +105,8 @@ class JSONWebSocket<T> extends EventEmitter {
      * Disables reconnection and keepalive behaviour,
      * as well as closing the socket.
      */
-    private disconnect() {
+    protected disconnect() {
         if (!this.connected) return;
-        console.log('disconnecting');
         this.ws?.removeAllListeners();
         this.ws?.close();
         this.connected = false;

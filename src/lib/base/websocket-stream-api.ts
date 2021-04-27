@@ -8,14 +8,15 @@ import WebSocketHandler from "./util/websocket-handler";
  * The websockets automatically close upon all of the listeners
  * being closed. 
  */
-export default class WebsocketStreamAPI {
+export default class WebSocketStreamAPI {
 
     constructor(private handler: WebSocketHandler) {}
 
     /**
      * The Aggregate Trade Streams push trade information that is aggregated for a single taker order.  
      * 
-     * Reference:  
+     * Update Speed: Real-time
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#aggregate-trade-streams
      * @param symbol
      */
@@ -27,7 +28,8 @@ export default class WebsocketStreamAPI {
     /**
      * The Trade Streams push raw trade information; each trade has a unique buyer and seller.  
      * 
-     * Reference:  
+     * Update Speed: Real-time
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#trade-streams
      * @param symbol
      */
@@ -39,7 +41,8 @@ export default class WebsocketStreamAPI {
     /**
      * The Kline/Candlestick Stream push updates to the current klines/candlestick every second.  
      * 
-     * Reference:  
+     * Update Speed: 2000ms
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#klinecandlestick-streams
      * @param symbol 
      * @param interval 
@@ -53,7 +56,8 @@ export default class WebsocketStreamAPI {
      * 24hr rolling window mini-ticker statistics.
      * These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs.  
      * 
-     * Reference:  
+     * Update Speed: 1000ms
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#individual-symbol-mini-ticker-stream
      * @param symbol 
      */
@@ -67,7 +71,8 @@ export default class WebsocketStreamAPI {
      * These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs.  
      * Note that only tickers that have changed will be present in the array.
      * 
-     * Reference:  
+     * Update Speed: 1000ms
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-market-mini-tickers-stream
      */
     onAllMiniTickers() {
@@ -79,7 +84,8 @@ export default class WebsocketStreamAPI {
      * 24hr rolling window ticker statistics for a single symbol.
      * These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs.
      * 
-     * Reference:  
+     * Update Speed: 1000ms
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#individual-symbol-ticker-streams
      * @param symbol
      */
@@ -93,7 +99,8 @@ export default class WebsocketStreamAPI {
      * These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs.
      * Note that only tickers that have changed will be present in the array.
      * 
-     * Reference:  
+     * Update Speed: 1000ms
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-market-tickers-stream
      */
     onAllTickers() {
@@ -104,7 +111,8 @@ export default class WebsocketStreamAPI {
     /**
      * Pushes any update to the best bid or ask's price or quantity in real-time for a specified symbol.
      * 
-     * Reference:  
+     * Update Speed: Real-time
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#individual-symbol-book-ticker-streams
      * @param symbol
      */
@@ -116,7 +124,8 @@ export default class WebsocketStreamAPI {
     /**
      * Pushes any update to the best bid or ask's price or quantity in real-time for all symbols.
      * 
-     * Reference:  
+     * Update Speed: Real-time
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-book-tickers-stream
      */
     onAllBookTickers() {
@@ -128,7 +137,8 @@ export default class WebsocketStreamAPI {
      * Top <levels> bids and asks, pushed every second.
      * Valid levels are 5, 10, or 20.
      * 
-     * Reference:  
+     * Update Speed: 1000ms or 100ms
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#partial-book-depth-streams
      * @param symbol 
      * @param level 
@@ -141,7 +151,8 @@ export default class WebsocketStreamAPI {
     /**
      * Order book price and quantity depth updates used to locally manage an order book.
      * 
-     * Reference:  
+     * Update Speed: 1000ms or 100ms
+     * 
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#diff-depth-stream
      * @param symbol 
      */
@@ -152,8 +163,11 @@ export default class WebsocketStreamAPI {
 
     /**
      * Multiple streams combined into a single stream
+     * 
+     * Update Speed: 2000ms, 1000ms, 100ms, or Real-time
+     * 
+     * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#general-wss-information
      * @param streams list of stream names to stream
-     * @returns 
      */
     onCombinedStream(streams: string[]) {
         const PATH = `${streams.join('/')}`;

@@ -1,5 +1,5 @@
-import BinanceREST from '../base/spot-api';
-import BinanceWS from '../base/websocket-stream-api';
+import BinanceREST from './binance-rest';
+import BinanceWS from './binance-ws';
 
 export {
     BinanceREST,

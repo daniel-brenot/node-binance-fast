@@ -1,21 +1,16 @@
-// Endpoint Parameters
-
 interface QueryDepthParameters {
     symbol: string;
     limit?: Limit;
 }
-
 interface QueryTradesParameters {
     symbol: string;
     limit?: Omit<Limit, 5000>;
 }
-
 interface QueryHistoricalTradesParameters {
     symbol: string;
     limit?: Omit<Limit, 5000>;
     fromId?: number;
 }
-
 interface QueryAggTradesParameters {
     symbol: string;
     fromId?: number;
@@ -23,7 +18,6 @@ interface QueryAggTradesParameters {
     endTime?: number;
     limit?: Omit<Limit, 5000>;
 }
-
 interface QueryKlinesParameters {
     symbol: string;
     interval: ChartInterval;
@@ -31,49 +25,41 @@ interface QueryKlinesParameters {
     endTime?: number;
     limit?: Omit<Limit, 5000>;
 }
-
-interface QueryTicker24HrParameters {
-    symbol: string
+interface QueryTicker24hrParameters {
+    symbol: string;
 }
-
 interface QueryTickerPriceParameters {
-    symbol?: string;
+    symbol: string;
 }
-
 interface QueryBookTickerParameters {
     symbol: string;
 }
-
 interface BaseOrderParameters {
     symbol: string;
     side: OrderSide;
     type: OrderType;
-    timestamp: number;
     newOrderRespType: OrderResponseType;
+    timestamp: number;
     recvWindow?: number;
 }
-
 interface LimitOrderParameters extends BaseOrderParameters {
     type: LIMIT_ORDER;
-    timeInForce: TimeInForce;
     quantity: string;
     price: string;
+    timeInForce: TimeInForce;
 }
-
-type MarketOrderParameters = ({
+declare type MarketOrderParameters = (BaseOrderParameters & {
     type: MARKET_ORDER;
+}) & ({
     quantity: string;
-} & BaseOrderParameters)| ({
-    type: MARKET_ORDER;
+} | {
     quoteOrderQty: string;
-} & BaseOrderParameters);
-
+});
 interface StopLossOrderParameters extends BaseOrderParameters {
     type: STOP_LOSS_ORDER;
     quantity: string;
     stopPrice: string;
 }
-
 interface StopLossLimitOrderParameters extends BaseOrderParameters {
     type: STOP_LOSS_LIMIT_ORDER;
     timeInForce: TimeInForce;
@@ -82,85 +68,70 @@ interface StopLossLimitOrderParameters extends BaseOrderParameters {
     stopPrice: string;
     icebergQty?: number;
 }
-
 interface TakeProfitOrderParameters extends BaseOrderParameters {
     type: TAKE_PROFIT_ORDER;
     quantity: string;
     stopPrice: string;
 }
-
 interface TakeProfitLimitOrderParameters extends BaseOrderParameters {
     type: TAKE_PROFIT_LIMIT_ORDER;
-    timeInForce: TimeInForce
+    timeInForce: TimeInForce;
     quantity: string;
     price: string;
     stopPrice: string;
     icebergQty?: number;
 }
-
-interface LimitMakerOrderParameters extends BaseOrderParameters{
+interface LimitMakerOrderParameters extends BaseOrderParameters {
     type: LIMIT_MAKER_ORDER;
     quantity: string;
     price: string;
     icebergQty?: number;
 }
-
-type CreateOrderParameters = LimitOrderParameters | MarketOrderParameters | StopLossOrderParameters | StopLossLimitOrderParameters | TakeProfitOrderParameters | TakeProfitLimitOrderParameters | LimitMakerOrderParameters;
-
-type TestOrderParameters = CreateOrderParameters;
-
-type QueryOrderParameters = {
+declare type CreateOrderParameters = LimitOrderParameters | MarketOrderParameters | StopLossOrderParameters | StopLossLimitOrderParameters | TakeProfitOrderParameters | TakeProfitLimitOrderParameters | LimitMakerOrderParameters;
+declare type TestOrderParameters = CreateOrderParameters;
+declare type QueryOrderParameters = ({
     symbol: string;
     recvWindow?: number;
     timestamp: number;
-} & (
-    {
-        origClientOrderId: string;
-        newClientOrderId?: string;
-    } | {
-        origClientOrderId?: string;
-        newClientOrderId: string;
-    }
-);
-
-type CancelOrderParameters = {
+} & ({
+    origClientOrderId: string;
+    newClientOrderId?: string;
+} | {
+    origClientOrderId?: string;
+    newClientOrderId: string;
+}));
+declare type CancelOrderParameters = {
     symbol: string;
     orderId?: number;
     recvWindow?: number;
     timestamp: number;
-} & (
-    {
-        origClientOrderId: string;
-        newClientOrderId?: string;
-    } | {
-        origClientOrderId?: string;
-        newClientOrderId: string;
-    }
-);
-
-interface CancelOpenOrdersParameters {
+} & ({
+    origClientOrderId: string;
+    newClientOrderId?: string;
+} | {
+    origClientOrderId?: string;
+    newClientOrderId: string;
+});
+declare type CancelOpenOrdersParameters = {
     symbol: string;
     recvWindow?: number;
     timestamp: number;
-}
-
-interface QueryOpenOrdersParameters {
+};
+declare type QueryOpenOrdersParameters = {
     symbol: string;
     recvWindow?: number;
     timestamp: number;
-}
-
-type QueryAllOrdersParameters = {
-    symbol?: string;
+};
+declare type QueryAllOrdersParameters = {
+    symbol: string;
     orderId: number;
     startTime: number;
     endTime: number;
-    limit: number;
+    limit: Omit<Limit, 5000>;
     recvWindow: number;
     timestamp: number;
-}
-
-type CreateOCOOrderParameters = {
+};
+declare type CreateOCOOrderParameters = {
     symbol: string;
     listClientOrderId?: string;
     side: OrderSide;
@@ -176,9 +147,8 @@ type CreateOCOOrderParameters = {
     newOrderRespType?: OrderResponseType;
     recvWindow: number;
     timestamp: number;
-}
-
-type CancelOCOOrderParameters = {
+};
+declare type CancelOCOOrderParameters = {
     symbol: string;
     newClientOrderId?: string;
     recvWindow?: number;
@@ -190,9 +160,8 @@ type CancelOCOOrderParameters = {
     listClientOrderId?: string;
     orderListId: number;
 });
-
-type QueryOCOOrderParameters = {
-    recvWindow: number;
+declare type QueryOCOOrderParameters = {
+    recvWindow?: number;
     timestamp: number;
 } & ({
     orderListId: number;
@@ -201,44 +170,34 @@ type QueryOCOOrderParameters = {
     orderListId?: number;
     origClientOrderId: string;
 });
-
-type QueryAllOCOOrdersParameters = {
+declare type QueryAllOCOOrdersParameters = {
     fromId?: number;
     startTime?: number;
     endTime?: number;
     limit?: Omit<Limit, 5000>;
     recvWindow?: number;
     timestamp: number;
-}
-
-type QueryOpenOCOOrdersParameters = {
+};
+declare type QueryOpenOCOOrdersParameters = {
     recvWindow?: number;
     timestamp: number;
-}
-
-type QueryAccountInformationParameters = {
+};
+declare type QueryAccountInformationParameters = {
     recvWindow?: number;
     timestamp: number;
-}
-
-type QueryMyTradesParameters = {
-    
-}
-
-
-
-
-
-
-
-
-
-// Endpoint Responses
-
+};
+declare type QueryMyTradesParameters = {
+    symbol: string;
+    startTime?: number;
+    endTime?: number;
+    fromId?: number;
+    limit?: Omit<Limit, 5000>;
+    recvWindow?: number;
+    timestamp: number;
+};
 interface QueryTimeResponse {
     serverTime: number;
 }
-
 interface QueryExchangeInfoResponse {
     timezone: string;
     serverTime: number;
@@ -246,14 +205,12 @@ interface QueryExchangeInfoResponse {
     exchangeFilters: ExchangeFilter[];
     symbols: SymbolFilter[];
 }
-
 interface QueryDepthResponse {
     lastUpdateId: number;
     bids: [string, string][];
     asks: [string, string][];
 }
-
-type QueryTradesResponse = {
+declare type QueryTradesResponse = {
     id: number;
     price: string;
     qty: string;
@@ -262,10 +219,8 @@ type QueryTradesResponse = {
     isBuyerMaker: boolean;
     isBestMatch: boolean;
 }[];
-
-type QueryHistoricalTradesResponse = QueryTradesResponse[];
-
-type QueryAggTradesResponse = {
+declare type QueryHistoricalTradesResponse = QueryTradesResponse[];
+declare type QueryAggTradesResponse = {
     /** Aggregate tradeId */
     a: number;
     /** Price */
@@ -283,15 +238,12 @@ type QueryAggTradesResponse = {
     /** Was the trade the best price match? */
     M: boolean;
 }[];
-
-type QueryKlinesResponse = [number, string, string, string, string, string, number, string, number, string, string, string][];
-
+declare type QueryKlinesResponse = [number, string, string, string, string, string, number, string, number, string, string, string][];
 interface AveragePriceResponse {
     mins: number;
     price: string;
 }
-
-interface QueryTicker24HrResponse {
+declare type QueryTicker24HrResponse = {
     symbol: string;
     priceChange: string;
     weightedAvgPrice: string;
@@ -310,13 +262,11 @@ interface QueryTicker24HrResponse {
     firstId: number;
     lastId: number;
     count: number;
-}
-
+};
 interface QueryTickerPriceResponse {
     symbol: string;
     price: string;
 }
-
 interface QueryBookTickerResponse {
     symbol: string;
     bidPrice: string;
@@ -324,7 +274,6 @@ interface QueryBookTickerResponse {
     askPrice: string;
     askQty: string;
 }
-
 interface OrderACKResponse {
     symbol: string;
     orderId: number;
@@ -332,47 +281,25 @@ interface OrderACKResponse {
     clientOrderId: string;
     transactTime: number;
 }
-
-interface OrderRESULTResponse {
-    symbol: string;
-    orderId: number;
-    orderListId: number;
-    clientOrderId: string;
-    transactTime: number;
-    price: string;
-    origQty: string;
-    executedQty: string;
-    cummulativeQuoreQty: string;
-    status: OrderStatus;
-    timeInForce: TimeInForce;
-    type: OrderType;
-    side: OrderSide;
+interface OrderRESULTResponse extends OrderACKResponse {
+    price?: string;
+    origQty?: string;
+    executedQty?: string;
+    cummulativeQuoteQty?: string;
+    status?: OrderStatus;
+    timeInForce?: TimeInForce;
+    type?: OrderType;
+    side?: OrderSide;
 }
-
-interface OrderFULLResponse {
-    symbol: string;
-    orderId: number;
-    orderListId: number;
-    clientOderId: string;
-    transactTime: number;
-    price: string;
-    origQty: string;
-    executedQty: string;
-    cummulativeQuoteQty: string;
-    status: OrderStatus;
-    timeInForce: TimeInForce;
-    type: OrderType;
-    side: OrderSide;
-    fills: {
+interface OrderFULLResponse extends OrderRESULTResponse {
+    fills?: {
         price: string;
         qty: string;
         commission: string;
         commissionAsset: string;
     }[];
 }
-
-type OrderResponse = OrderACKResponse | OrderRESULTResponse | OrderFULLResponse;
-
+declare type OrderResponse = OrderACKResponse | OrderRESULTResponse | OrderFULLResponse;
 interface QueryOrderResponse {
     symbol: string;
     orderId: number;
@@ -392,9 +319,7 @@ interface QueryOrderResponse {
     updateTime: string;
     isWorking: boolean;
     origQuoteOrderQty: string;
-
 }
-
 interface CancelOrderResponse {
     symbol: string;
     origClientOrderId?: string;
@@ -402,8 +327,7 @@ interface CancelOrderResponse {
     recvWindow?: number;
     timestamp: number;
 }
-
-type CancelOpenOrdersResponse = {
+declare type CancelOpenOrdersResponse = {
     symbol: string;
     orderId: number;
     origClientOrderId: string;
@@ -440,8 +364,7 @@ type CancelOpenOrdersResponse = {
         icebergQty: string;
     }[];
 }[];
-
-type QueryOpenOrdersResponse = {
+declare type QueryOpenOrdersResponse = {
     symbol: string;
     orderId: number;
     orderListId: number;
@@ -461,8 +384,7 @@ type QueryOpenOrdersResponse = {
     isWorking: boolean;
     origQuoteOrderQty: string;
 }[];
-
-type QueryAllOrdersResponse = {
+declare type QueryAllOrdersResponse = {
     symbol: string;
     orderId: number;
     orderListId: number;
@@ -482,42 +404,119 @@ type QueryAllOrdersResponse = {
     isWorking: boolean;
     origQuoteOrderQty: string;
 };
-
-type QueryOCOOrderResponse = {
+declare type QueryOCOOrderResponse = {
     recvWindow?: number;
     timestamp: number;
-} & (
-    {
-        orderListId: number;
-        origClientOrderId?: string;
-    } |
-    {
-        orderListId?: number;
+} & ({
+    orderListId: number;
+    origClientOrderId?: string;
+} | {
+    orderListId?: number;
+    origClientOrderId: string;
+});
+declare type CreateOCOOrderResponse = {
+    orderListId: number;
+    contingencyType: OrderType;
+    listStatusType: string;
+    listOrderStatus: string;
+    listClientOrderId: string;
+    transactionTime: string;
+    symbol: string;
+    orders: {
+        symbol: string;
+        orderId: number;
+        clientOrderId: string;
+    }[];
+    orderReports: OrderResponse[];
+};
+declare type CancelOCOOrderResponse = {
+    orderListId: number;
+    contingencyType: string;
+    listStatusType: string;
+    listOrderStatus: string;
+    listClientOrderId: string;
+    transactionTime: number;
+    symbol: string;
+    orders: {
+        symbol: string;
+        orderId: number;
+        clientOrderId: string;
+    }[];
+    orderReports: {
+        symbol: string;
         origClientOrderId: string;
-    }
-)
-
-type CreateOCOOrderResponse = {
-    
-}
-
-type CancelOCOOrderResponse = {
-    
-}
-
-type QueryAllOCOOrdersResponse = {
-
-}
-
-type QueryOpenOCOOrdersResponse = {
-
-}
-
-type QueryAccountInformationResponse = {
-
-}
-
-type QueryMyTradesResponse = {
-
-}
-
+        orderId: number;
+        orderListId: number;
+        clientOrderId: string;
+        price: string;
+        origQty: string;
+        executedQty: string;
+        cummulativeQuoteQty: string;
+        status: OrderStatus;
+        timeInForce: TimeInForce;
+        type: OrderType;
+        side: OrderSide;
+        stopPrice: string;
+    }[];
+};
+declare type QueryAllOCOOrdersResponse = {
+    orderListId: number;
+    contingencyType: string;
+    listStatusType: string;
+    listOrderStatus: string;
+    listClientOrderId: string;
+    transactionTime: number;
+    symbol: string;
+    orders: {
+        symbol: string;
+        orderId: number;
+        clientOrderId: string;
+    }[];
+}[];
+declare type QueryOpenOCOOrdersResponse = {
+    orderListId: number;
+    contingencyType: string;
+    listStatusType: string;
+    listOrderStatus: string;
+    listClientOrderId: string;
+    transactionTime: number;
+    symbol: string;
+    orders: {
+        symbol: string;
+        orderId: number;
+        clientOrderId: string;
+    }[];
+}[];
+declare type QueryAccountInformationResponse = {
+    makerCommission: number;
+    takerCommission: number;
+    buyerCommission: number;
+    sellerCommission: number;
+    canTrade: boolean;
+    canWithdraw: boolean;
+    canDeposit: boolean;
+    updateTime: number;
+    accountType: string;
+    balances: {
+        asset: string;
+        free: string;
+        locked: string;
+    }[];
+    permissions: string[];
+};
+declare type QueryMyTradesResponse = {
+    symbol: string;
+    id: number;
+    orderId: number;
+    orderListId: number;
+    price: string;
+    qty: string;
+    quoteQty: string;
+    commission: string;
+    commissionAsset: string;
+    time: number;
+    isBuyer: boolean;
+    isMaker: boolean;
+    isBestMatch: boolean;
+}[];
+//# sourceMappingURL=rest-api.d.ts.map

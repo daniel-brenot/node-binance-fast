@@ -1,10 +1,17 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import crypto from 'crypto';
-
+import qs from 'qs';
 
 /** Name of the header to assign the API key to */
 const API_KEY_HEADER_NAME = 'X-MBX-APIKEY';
 
+class RequestError extends Error{
+
+    constructor(name: string, message: string){
+        super(message);
+        this.name = name;
+    }
+}
 
 /**
  * Handles REST requests to binance by adding the appropriate headers
@@ -12,75 +19,47 @@ const API_KEY_HEADER_NAME = 'X-MBX-APIKEY';
  */
 export default class RequestHandler {
 
-    constructor(private baseUrl: string, private apiKey: string, private apiSecret: string) {}
+    constructor(
+        protected apiKey: string,
+        protected apiSecret: string,
+        protected baseURL: string
+    ) { }
 
     /**
      * Uses the HMAC-SHA256 algorithm to sign the data passed in
      * using the secret key used to initialise the handler.
      * @param data The data to create a signature for
      */
-    private getSignedRequestData(data: string){
+    protected getSignature(data: string){
         return crypto.createHmac('sha256', this.apiSecret).update(data).digest('hex')
     }
 
     /**
-     * Sends a GET request to the current API 
+     * 
      */
-    async sendGetRequest<T>(path: string, weight: number, params?: any): Promise<T>{
-        return (await axios.get(`${this.baseUrl}${path}`, {params})).data as T;
+    async sendRequest<T>({path, method, weight, params}: {path: string, method: Method, weight: number, params?: {}}): Promise<T>{
+        const headers = { [API_KEY_HEADER_NAME]: this.apiKey };
+        try {
+            return (await axios.request({baseURL: this.baseURL, url: path, method, params, headers})).data as T;
+        } catch (err) {
+            let data = err.response.data;
+            throw new RequestError(data.code, data.msg);
+        }
     }
 
     /**
-     * Sends a PUT request to the current API 
-     */
-    async sendPutRequest<T>(path: string, weight: number, data: {}): Promise<T>{
-        return (await axios.put(`${this.baseUrl}${path}`, data)).data as T;
-    }
-
-    /**
-     * Sends a POST request to the current API 
-     */
-    async sendPostRequest<T>(path: string, weight: number, data: {}): Promise<T>{
-        return (await axios.post(`${this.baseUrl}${path}`, data)).data as T;
-    }
-
-    /**
-     * Sends a DELETE request to the current API 
-     */
-    async sendDeleteRequest<T>(path: string, weight: number, params?: any): Promise<T>{
-        return (await axios.delete(`${this.baseUrl}${path}`, {params})).data as T;
-    }
-
-    /**
-     * Sends a GET request to the current API.  
+     * 
      * Also adds a HMAC-SHA256 signature to the request.
      */
-    async sendSignedGetRequest<T>(path: string, weight: number, params?: any): Promise<T>{
-        return (await axios.get(`${this.baseUrl}${path}`, {params})).data as T;
+    async sendSignedRequest<T>({path, method, weight, params}: {path: string, method: Method, weight: number, params?: {}}): Promise<T>{
+        const headers = { [API_KEY_HEADER_NAME]: this.apiKey };
+        const signature = this.getSignature(qs.stringify(params));
+        try {
+            params= { signature, ...params };
+            return (await axios.request({baseURL: this.baseURL, url: path, method, params, headers})).data as T;
+        } catch (err) {
+            let data = err.response.data;
+            throw new RequestError(data.code, data.msg);
+        }
     }
-
-    /**
-     * Sends a PUT request to the current API.  
-     * Also adds a HMAC-SHA256 signature to the request.
-     */
-    async sendSignedPutRequest<T>(path: string, weight: number, data: {}): Promise<T>{
-        return (await axios.put(`${this.baseUrl}${path}`, data)).data as T;
-    }
-
-    /**
-     * Sends a POST request to the current API.  
-     * Also adds a HMAC-SHA256 signature to the request.
-     */
-    async sendSignedPostRequest<T>(path: string, weight: number, data: {}): Promise<T>{
-        return (await axios.post(`${this.baseUrl}${path}`, data)).data as T;
-    }
-
-    /**
-     * Sends a DELETE request to the current API.  
-     * Also adds a HMAC-SHA256 signature to the request.
-     */
-    async sendSignedDeleteRequest<T>(path: string, weight: number, params?: any): Promise<T>{
-        return (await axios.delete(`${this.baseUrl}${path}`, {params})).data as T;
-    }
-
 }

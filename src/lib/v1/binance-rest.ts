@@ -1,6 +1,6 @@
-import Beautifier from './beautifier';
+import Beautifier from './util/beautifier';
 import { callbackify } from 'util';
-import BinanceREST from '../base/spot-api';
+import BinanceREST from '../base/rest-api';
 import RequestHandler from '../base/util/request-handler';
 
 interface BinanceRestOptions {
@@ -69,10 +69,8 @@ export default class BinanceRest {
         this.requestOptions = requestOptions || {};
         this.beautifier = new Beautifier();
         this.baseUrl = baseUrl || 'https://api.binance.com/';
-        // remove trailing slash if necessary
-        if ('/' === this.baseUrl.substr(-1)) {
-            this.baseUrl.slice(0,-1);
-        }
+        // add trailing slash if necessary
+        if ('/' !== this.baseUrl.substr(-1)) { this.baseUrl += '/'; }
         this.binance = new BinanceREST(new RequestHandler('','',''));
 
         this.drift = 0;
@@ -298,11 +296,11 @@ export default class BinanceRest {
      * @param query 
      * @param callback 
      */
-    ticker24Hr(query: QueryTicker24HrParameters, callback?: undefined): Promise<QueryTicker24HrResponse>;
+    ticker24Hr(query: QueryTicker24hrParameters, callback?: undefined): Promise<QueryTicker24HrResponse>;
     ticker24Hr(query?: {}, callback?: undefined): Promise<QueryTicker24HrResponse[]>;
-    ticker24Hr(query: QueryTicker24HrParameters, callback: (err: Error, value: QueryTicker24HrResponse) => void): void;
+    ticker24Hr(query: QueryTicker24hrParameters, callback: (err: Error, value: QueryTicker24HrResponse) => void): void;
     ticker24Hr(query: {}, callback: (err: Error, value: QueryTicker24HrResponse[]) => void): void;
-    ticker24Hr(query: QueryTicker24HrParameters | {}, callback?: Ticker24HrCallback | undefined): any {
+    ticker24Hr(query: QueryTicker24hrParameters | {}, callback?: Ticker24HrCallback | undefined): any {
         if(!query) query = {};
         if(callback) {
             callbackify(this.binance.queryTicker24hr)(query, callback)
@@ -378,7 +376,7 @@ export default class BinanceRest {
     allPrices(callback: AllPricesCallback): void;
     allPrices(callback?: AllPricesCallback | undefined): any {
         if(callback) {
-            (callbackify(this.binance.queryTickerPrice))({}, callback)
+            (callbackify(this.binance.queryTickerPrice))({}, callback);
         } else {
             return this.binance.queryTickerPrice({});
         }
@@ -391,13 +389,9 @@ export default class BinanceRest {
      * @param query 
      * @param callback 
      */
-    newOrder(query: CreateOrderParameters & { newOrderRespType: 'ACK' }, callback?: undefined): Promise<OrderACKResponse>;
-    newOrder(query: CreateOrderParameters & { newOrderRespType: 'RESULT' }, callback?: undefined): Promise<OrderRESULTResponse>;
-    newOrder(query: CreateOrderParameters & { newOrderRespType: 'FULL' }, callback?: undefined): Promise<OrderFULLResponse>;
-    newOrder(query: CreateOrderParameters & { newOrderRespType: 'ACK' }, callback: (err: Error, value: OrderACKResponse) => void): void;
-    newOrder(query: CreateOrderParameters & { newOrderRespType: 'RESULT' }, callback: (err: Error, value: OrderRESULTResponse) => void): void;
-    newOrder(query: CreateOrderParameters & { newOrderRespType: 'FULL' }, callback: (err: Error, value: OrderFULLResponse) => void): void;
-    newOrder(query: any, callback?: any): any {
+    newOrder(query: CreateOrderParameters, callback?: undefined): Promise<OrderFULLResponse>;
+    newOrder(query: CreateOrderParameters, callback: (err: Error, value: OrderFULLResponse) => void): void;
+    newOrder(query: any, callback?: (err: Error, value: OrderFULLResponse) => void): any {
         if(callback) {
             callbackify(this.binance.createOrder)(query, callback);
         } else {

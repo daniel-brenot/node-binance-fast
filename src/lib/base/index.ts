@@ -1,9 +1,9 @@
-import SpotAPI from './spot-api';
-import WebsocketStreamAPI from './websocket-stream-api';
+import RESTAPI from './rest-api';
+import WebSocketStreamAPI from './websocket-stream-api';
 import UserDataStreamAPI from './user-data-stream-api';
 
 export {
-    SpotAPI,
-    WebsocketStreamAPI,
+    RESTAPI,
+    WebSocketStreamAPI,
     UserDataStreamAPI
 }

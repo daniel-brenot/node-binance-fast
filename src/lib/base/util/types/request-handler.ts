@@ -1,0 +1,1 @@
+type Method = 'POST' | 'PUT' | 'GET' | 'DELETE';
