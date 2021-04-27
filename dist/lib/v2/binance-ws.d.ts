@@ -1,3 +1,4 @@
+/// <reference path="types/binance-ws.d.ts" />
 import { WebSocketStreamAPI } from "../base";
 declare type BinanceWSOptions = {
     baseUrl?: string;

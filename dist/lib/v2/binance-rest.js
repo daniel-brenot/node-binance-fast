@@ -1,4 +1,5 @@
 "use strict";
+/// <reference path="types/binance-rest.ts" />
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -61,17 +62,17 @@ var BinanceREST = /** @class */ (function () {
     function BinanceREST(options) {
         this.drift = 0;
         var DEFAULT_OPTIONS = {
-            baseUrl: DEFAULT_BASE_URL,
+            baseURL: DEFAULT_BASE_URL,
             timeout: 15000,
             recvWindow: 10000,
             handleDrift: false
         };
         this.options = __assign(__assign({}, DEFAULT_OPTIONS), options);
         if (options.handleDrift) {
-            this.handler = new drift_request_handler_1.default(options.apiKey, options.apiSecret, options.baseUrl, this.fixDrift.bind(this));
+            this.handler = new drift_request_handler_1.default(options.apiKey, options.apiSecret, this.options.baseURL, this.fixDrift.bind(this));
         }
         else {
-            this.handler = new request_handler_1.default(options.apiKey, options.apiSecret, options.baseUrl);
+            this.handler = new request_handler_1.default(options.apiKey, options.apiSecret, this.options.baseURL);
         }
         this.rest = new base_1.RESTAPI(this.handler);
     }

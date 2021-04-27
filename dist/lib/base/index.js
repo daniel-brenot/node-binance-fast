@@ -1,4 +1,9 @@
 "use strict";
+/// <reference path="types/enums.ts" />
+/// <reference path="types/filters.ts" />
+/// <reference path="types/rest-api.ts" />
+/// <reference path="types/user-data-stream-api.ts" />
+/// <reference path="types/websocket-stream-api.ts" />
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };

@@ -1,3 +1,5 @@
+/// <reference path="types/binance-ws.ts" />
+
 import { WebSocketStreamAPI } from "../base";
 import WebSocketHandler from '../base/util/websocket-handler';
 import CachedWebsocketHander from "./util/cached-websocket-handler";

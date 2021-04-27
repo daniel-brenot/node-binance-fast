@@ -117,7 +117,7 @@ var RequestHandler = /** @class */ (function () {
                     case 3:
                         err_1 = _c.sent();
                         data = err_1.response.data;
-                        throw err_1;
+                        throw new RequestError(data.code, data.msg);
                     case 4: return [2 /*return*/];
                 }
             });
@@ -146,7 +146,7 @@ var RequestHandler = /** @class */ (function () {
                     case 3:
                         err_2 = _c.sent();
                         data = err_2.response.data;
-                        throw err_2;
+                        throw new RequestError(data.code, data.msg);
                     case 4: return [2 /*return*/];
                 }
             });

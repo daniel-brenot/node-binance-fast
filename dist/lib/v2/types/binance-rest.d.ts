@@ -26,7 +26,7 @@ declare type BinanceRESTOptions = {
     apiKey: string;
     /** API Secret from binance */
     apiSecret: string;
-    baseUrl: string;
+    baseURL?: string;
     /** Optional, defaults to 15000, is the request time out in milliseconds */
     timeout?: number;
     /**
