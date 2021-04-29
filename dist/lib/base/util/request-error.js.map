@@ -1,0 +1,1 @@
+{"version":3,"file":"request-error.js","sourceRoot":"","sources":["../../../../src/lib/base/util/request-error.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AACA;IAA0C,gCAAK;IAE3C,sBAAmB,IAAY,EAAS,OAAe;QAAvD,YACI,kBAAM,OAAO,CAAC,SAEjB;QAHkB,UAAI,GAAJ,IAAI,CAAQ;QAAS,aAAO,GAAP,OAAO,CAAQ;QAEnD,KAAI,CAAC,IAAI,GAAG,KAAG,IAAM,CAAC;;IAC1B,CAAC;IACL,mBAAC;AAAD,CAAC,AAND,CAA0C,KAAK,GAM9C"}

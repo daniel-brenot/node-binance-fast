@@ -30,9 +30,9 @@ var DEFAULT_COMBINED_BASE_URL = 'wss://stream.binance.com:9443/stream?streams=';
 var BinanceWS = /** @class */ (function (_super) {
     __extends(BinanceWS, _super);
     function BinanceWS(_a) {
-        var _b = _a.baseUrl, baseUrl = _b === void 0 ? DEFAULT_BASE_URL : _b, _c = _a.combinedBaseUrl, combinedBaseUrl = _c === void 0 ? DEFAULT_COMBINED_BASE_URL : _c, _d = _a.cacheConnections, cacheConnections = _d === void 0 ? true : _d;
+        var _b = _a.baseURL, baseURL = _b === void 0 ? DEFAULT_BASE_URL : _b, _c = _a.combinedBaseURL, combinedBaseURL = _c === void 0 ? DEFAULT_COMBINED_BASE_URL : _c, _d = _a.cacheConnections, cacheConnections = _d === void 0 ? true : _d;
         var _this = this;
-        var handler = cacheConnections ? new cached_websocket_handler_1.default(baseUrl, combinedBaseUrl) : new websocket_handler_1.default(baseUrl, combinedBaseUrl);
+        var handler = cacheConnections ? new cached_websocket_handler_1.default(baseURL, combinedBaseURL) : new websocket_handler_1.default(baseURL, combinedBaseURL);
         _this = _super.call(this, handler) || this;
         return _this;
     }

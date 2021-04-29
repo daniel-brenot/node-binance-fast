@@ -1,0 +1,1 @@
+{"version":3,"file":"binance-user-data.d.ts","sourceRoot":"","sources":["../../../src/lib/v2/binance-user-data.ts"],"names":[],"mappings":"AAUA;;GAEG;AACH,MAAM,CAAC,OAAO,OAAO,eAAe;IAEhC,OAAO,CAAC,QAAQ,CAAoB;IACpC,OAAO,CAAC,OAAO,CAAiB;IAChC,OAAO,CAAC,gBAAgB,CAAmB;IAC3C,SAAS,CAAC,OAAO,CAAC,EAAE,QAAQ,CAAC,sBAAsB,CAAC,CAAA;IACpD,SAAS,CAAC,KAAK,SAAK;gBAER,OAAO,EAAE,sBAAsB;CAiD9C"}

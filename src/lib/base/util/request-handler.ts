@@ -1,17 +1,10 @@
 import axios from 'axios';
 import crypto from 'crypto';
 import qs from 'qs';
+import RequestError from './request-error';
 
 /** Name of the header to assign the API key to */
 const API_KEY_HEADER_NAME = 'X-MBX-APIKEY';
-
-class RequestError extends Error{
-
-    constructor(name: string, message: string){
-        super(message);
-        this.name = name;
-    }
-}
 
 /**
  * Handles REST requests to binance by adding the appropriate headers
@@ -42,8 +35,8 @@ export default class RequestHandler {
         try {
             return (await axios.request({baseURL: this.baseURL, url: path, method, params, headers})).data as T;
         } catch (err) {
-            let data = err.response.data;
-            throw new RequestError(data.code, data.msg);
+            let data = err.response.data ;
+            throw new RequestError(data.code || err.response.statusText, data.msg || err.response.status);
         }
     }
 

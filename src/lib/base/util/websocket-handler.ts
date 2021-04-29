@@ -21,10 +21,10 @@ export default class WebSocketHandler {
      * Creates a new websocket at the provided combined stream path.
      * @param path 
      */
-    createCombinedWebSocket<T>(path: string) {
+     createCombinedWebSocket<T>(path: string) {
         return new JSONWebSocket<T>(`${this.combinedBaseUrl}${path}`);
     }
-
+    
     /**
      * Creates a user data stream websocket at the provided path
      * @path

@@ -1,6 +1,6 @@
 import RequestHandler from "../../base/util/request-handler";
 
-const INVALID_TIMESTAMP = -1021;
+const INVALID_TIMESTAMP = '-1021';
 
 export default class DriftRequestHandler extends RequestHandler {
 
@@ -49,10 +49,7 @@ export default class DriftRequestHandler extends RequestHandler {
             if(params?.timestamp) await this.fixingDrift;
             return await super.sendRequest<T>({ path, method, weight, params })
         } catch (err) {
-            console.log(path);
-            console.log('name: ' + err.name)
-            console.dir(err)
-            if(err.response.data.code === INVALID_TIMESTAMP) {
+            if(err.name === INVALID_TIMESTAMP) {
                 try {
                     let drift = await this.requestDriftCorrection();
                     params = this.applyDrift(params, drift);
@@ -75,10 +72,7 @@ export default class DriftRequestHandler extends RequestHandler {
             if(params?.timestamp ) await this.fixingDrift;
             return await super.sendSignedRequest<T>({ path, method, weight, params })
         } catch (err) {
-            console.log(path);
-            console.log('name: ' + (err.name === INVALID_TIMESTAMP))
-            console.dir(err)
-            if(err.response.data.code === INVALID_TIMESTAMP) {
+            if(err.name === INVALID_TIMESTAMP) {
                 try {
                     let drift = await this.requestDriftCorrection();
                     params = this.applyDrift(params, drift);

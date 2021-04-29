@@ -22,8 +22,8 @@ export default class BinanceREST {
             recvWindow: 10000,
             handleDrift: false
         };
-        this.options = { ...DEFAULT_OPTIONS, ...options};
-        if(options.handleDrift) {
+        this.options = { ...DEFAULT_OPTIONS, ...options };
+        if (options.handleDrift) {
             this.handler = new DriftRequestHandler(options.apiKey, options.apiSecret, this.options.baseURL, this.fixDrift.bind(this));
         } else {
             this.handler = new RequestHandler(options.apiKey, options.apiSecret, this.options.baseURL);
@@ -31,12 +31,12 @@ export default class BinanceREST {
         this.rest = new RESTAPI(this.handler);
     }
 
-    protected async fixDrift(){
+    protected async fixDrift() {
         this.drift = await this.calculateDrift();
         return this.drift;
     }
 
-    protected get timestamp (){ return Date.now() + this.drift; }
+    protected get timestamp() { return Date.now() + this.drift; }
 
     /**
      * Starts an interval that automatically calculates drift between the server and client,
@@ -59,7 +59,7 @@ export default class BinanceREST {
      * Clears the interval for syncing server time with local time for requests.
      */
     endTimeSync() {
-        if(!this.syncInterval) { return };
+        if (!this.syncInterval) { return };
         clearInterval(this.syncInterval);
         this.drift = 0;
         this.syncInterval = undefined;
@@ -245,36 +245,38 @@ export default class BinanceREST {
      */
     async createLimitSellOrder(
         symbol: string, quantity: string, price: string,
-        options:  CreateLimitOrderOptions) {
+        options: CreateLimitOrderOptions) {
         const type = 'LIMIT';
         const side = 'SELL';
         const DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' };
         return this.rest.createOrder({ ...DEFAULT_OPTIONS, ...options, type, side, symbol, quantity, price });
     }
 
-    // /**
-    //  * Send in a new market buy order.  
-    //  * Weight: 1  
-    //  * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
-    //  */
-    // async createMarketBuyOrder(symbol: string, options?: CreateMarketOrderOptions) {
-    //     const type = 'MARKET';
-    //     const side = 'BUY';
-    //     const DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' };
-    //     return this.rest.createOrder({ ...DEFAULT_OPTIONS, ...options, type, side, symbol } as MarketOrderParameters);
-    // }
+    /**
+     * Send in a new market buy order.  
+     * Weight: 1  
+     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
+     */
+    async createMarketBuyOrder(symbol: string, quantity: number, quoteOrder: boolean, options?: CreateMarketOrderOptions) {
+        const type = 'MARKET';
+        const side = 'BUY';
+        const DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' };
+        let overrides: any = { [quoteOrder ? 'quoteOrderQty' : 'quantity']: quantity };
+        return this.rest.createOrder({ ...DEFAULT_OPTIONS, ...overrides, ...options, type, side, symbol } as MarketOrderParameters);
+    }
 
-    // /**
-    //  * Send in a new market sell order.  
-    //  * Weight: 1  
-    //  * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
-    //  */
-    // async createMarketSellOrder(symbol: string, options?: CreateMarketOrderOptions) {
-    //     const type = 'MARKET';
-    //     const side = 'SELL';
-    //     const DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' }; 
-    //     return this.rest.createOrder({ ...DEFAULT_OPTIONS, ...options, type, side, symbol } as MarketOrderParameters);
-    // }
+    /**
+     * Send in a new market sell order.  
+     * Weight: 1  
+     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
+     */
+    async createMarketSellOrder(symbol: string, quantity: number, quoteOrder: boolean, options?: CreateMarketOrderOptions) {
+        const type = 'MARKET';
+        const side = 'SELL';
+        const DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' };
+        let overrides: any = { [quoteOrder ? 'quoteOrderQty' : 'quantity']: quantity };
+        return this.rest.createOrder({ ...DEFAULT_OPTIONS, ...overrides, ...options, type, side, symbol } as MarketOrderParameters);
+    }
 
     /**
      * Send in a new market buy order with a stop-loss.
@@ -502,7 +504,7 @@ export default class BinanceREST {
      * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#query-all-oco-user_data
      */
     async queryAllOCOOrders(options?: QueryAllOCOOrdersOptions) {
-        return this.rest.queryAllOCOOrders({timestamp: this.timestamp, ...options});
+        return this.rest.queryAllOCOOrders({ timestamp: this.timestamp, ...options });
     }
 
     /**
@@ -510,8 +512,8 @@ export default class BinanceREST {
      * Weight: 2  
      * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#query-open-oco-user_data
      */
-     async queryOpenOCOOrders(options?: QueryOpenOCOOrdersOptions) {
-        return this.rest.queryOpenOCOOrders({timestamp: this.timestamp, ...options});
+    async queryOpenOCOOrders(options?: QueryOpenOCOOrdersOptions) {
+        return this.rest.queryOpenOCOOrders({ timestamp: this.timestamp, ...options });
 
     }
 
@@ -521,7 +523,7 @@ export default class BinanceREST {
      * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-information-user_data
      */
     async queryAccountInformation(options?: QueryAccountInformationOptions) {
-        return this.rest.queryAccountInformation({timestamp: this.timestamp, ...options});
+        return this.rest.queryAccountInformation({ timestamp: this.timestamp, ...options });
     }
 
     /**

@@ -160,7 +160,7 @@ var WebSocketStreamAPI = /** @class */ (function () {
      */
     WebSocketStreamAPI.prototype.onCombinedStream = function (streams) {
         var PATH = "" + streams.join('/');
-        return this.handler.createCombinedWebSocket(PATH);
+        return this.handler.createWebSocket(PATH);
     };
     return WebSocketStreamAPI;
 }());

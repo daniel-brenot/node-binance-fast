@@ -141,6 +141,18 @@ export default class BinanceREST {
      */
     createLimitSellOrder(symbol: string, quantity: string, price: string, options: CreateLimitOrderOptions): Promise<OrderFULLResponse>;
     /**
+     * Send in a new market buy order.
+     * Weight: 1
+     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
+     */
+    createMarketBuyOrder(symbol: string, quantity: number, quoteOrder: boolean, options?: CreateMarketOrderOptions): Promise<OrderFULLResponse>;
+    /**
+     * Send in a new market sell order.
+     * Weight: 1
+     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
+     */
+    createMarketSellOrder(symbol: string, quantity: number, quoteOrder: boolean, options?: CreateMarketOrderOptions): Promise<OrderFULLResponse>;
+    /**
      * Send in a new market buy order with a stop-loss.
      * A stop-loss is a price-target in the unfavourable direction of the current price, relative to your position.
      * Weight: 1

@@ -171,6 +171,6 @@ export default class WebSocketStreamAPI {
      */
     onCombinedStream(streams: string[]) {
         const PATH = `${streams.join('/')}`;
-        return this.handler.createCombinedWebSocket<{}>(PATH);
+        return this.handler.createWebSocket<{}>(PATH);
     }
 }

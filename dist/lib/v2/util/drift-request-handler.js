@@ -55,7 +55,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var request_handler_1 = __importDefault(require("../../base/util/request-handler"));
-var INVALID_TIMESTAMP = -1021;
+var INVALID_TIMESTAMP = '-1021';
 var DriftRequestHandler = /** @class */ (function (_super) {
     __extends(DriftRequestHandler, _super);
     function DriftRequestHandler(apiKey, apiSecret, baseURL, fixDrift) {
@@ -112,10 +112,7 @@ var DriftRequestHandler = /** @class */ (function (_super) {
                     case 4: return [2 /*return*/, _b.sent()];
                     case 5:
                         err_1 = _b.sent();
-                        console.log(path);
-                        console.log('name: ' + err_1.name);
-                        console.dir(err_1);
-                        if (!(err_1.response.data.code === INVALID_TIMESTAMP)) return [3 /*break*/, 11];
+                        if (!(err_1.name === INVALID_TIMESTAMP)) return [3 /*break*/, 11];
                         _b.label = 6;
                     case 6:
                         _b.trys.push([6, 9, , 10]);
@@ -160,10 +157,7 @@ var DriftRequestHandler = /** @class */ (function (_super) {
                     case 4: return [2 /*return*/, _b.sent()];
                     case 5:
                         err_3 = _b.sent();
-                        console.log(path);
-                        console.log('name: ' + (err_3.name === INVALID_TIMESTAMP));
-                        console.dir(err_3);
-                        if (!(err_3.response.data.code === INVALID_TIMESTAMP)) return [3 /*break*/, 11];
+                        if (!(err_3.name === INVALID_TIMESTAMP)) return [3 /*break*/, 11];
                         _b.label = 6;
                     case 6:
                         _b.trys.push([6, 9, , 10]);

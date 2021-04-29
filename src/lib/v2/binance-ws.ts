@@ -8,8 +8,8 @@ const DEFAULT_BASE_URL = 'wss://stream.binance.com:9443/ws/';
 const DEFAULT_COMBINED_BASE_URL = 'wss://stream.binance.com:9443/stream?streams=';
 
 type BinanceWSOptions = {
-    baseUrl?: string;
-    combinedBaseUrl?: string;
+    baseURL?: string;
+    combinedBaseURL?: string;
     cacheConnections?: boolean;
 };
 
@@ -19,11 +19,11 @@ type BinanceWSOptions = {
 export default class BinanceWS extends WebSocketStreamAPI {
 
     constructor({
-        baseUrl = DEFAULT_BASE_URL,
-        combinedBaseUrl = DEFAULT_COMBINED_BASE_URL,
+        baseURL = DEFAULT_BASE_URL,
+        combinedBaseURL = DEFAULT_COMBINED_BASE_URL,
         cacheConnections = true
     }: BinanceWSOptions) {
-        const handler = cacheConnections ? new CachedWebsocketHander(baseUrl, combinedBaseUrl) : new WebSocketHandler(baseUrl, combinedBaseUrl);
+        const handler = cacheConnections ? new CachedWebsocketHander(baseURL, combinedBaseURL) : new WebSocketHandler(baseURL, combinedBaseURL);
         super(handler);
     }
 }

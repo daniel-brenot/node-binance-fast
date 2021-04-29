@@ -401,28 +401,42 @@ var BinanceREST = /** @class */ (function () {
             });
         });
     };
-    // /**
-    //  * Send in a new market buy order.  
-    //  * Weight: 1  
-    //  * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
-    //  */
-    // async createMarketBuyOrder(symbol: string, options?: CreateMarketOrderOptions) {
-    //     const type = 'MARKET';
-    //     const side = 'BUY';
-    //     const DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' };
-    //     return this.rest.createOrder({ ...DEFAULT_OPTIONS, ...options, type, side, symbol } as MarketOrderParameters);
-    // }
-    // /**
-    //  * Send in a new market sell order.  
-    //  * Weight: 1  
-    //  * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
-    //  */
-    // async createMarketSellOrder(symbol: string, options?: CreateMarketOrderOptions) {
-    //     const type = 'MARKET';
-    //     const side = 'SELL';
-    //     const DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' }; 
-    //     return this.rest.createOrder({ ...DEFAULT_OPTIONS, ...options, type, side, symbol } as MarketOrderParameters);
-    // }
+    /**
+     * Send in a new market buy order.
+     * Weight: 1
+     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
+     */
+    BinanceREST.prototype.createMarketBuyOrder = function (symbol, quantity, quoteOrder, options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var type, side, DEFAULT_OPTIONS, overrides;
+            var _a;
+            return __generator(this, function (_b) {
+                type = 'MARKET';
+                side = 'BUY';
+                DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' };
+                overrides = (_a = {}, _a[quoteOrder ? 'quoteOrderQty' : 'quantity'] = quantity, _a);
+                return [2 /*return*/, this.rest.createOrder(__assign(__assign(__assign(__assign({}, DEFAULT_OPTIONS), overrides), options), { type: type, side: side, symbol: symbol }))];
+            });
+        });
+    };
+    /**
+     * Send in a new market sell order.
+     * Weight: 1
+     * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#account-endpoints
+     */
+    BinanceREST.prototype.createMarketSellOrder = function (symbol, quantity, quoteOrder, options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var type, side, DEFAULT_OPTIONS, overrides;
+            var _a;
+            return __generator(this, function (_b) {
+                type = 'MARKET';
+                side = 'SELL';
+                DEFAULT_OPTIONS = { timeInForce: 'GTC', newOrderRespType: 'ACK' };
+                overrides = (_a = {}, _a[quoteOrder ? 'quoteOrderQty' : 'quantity'] = quantity, _a);
+                return [2 /*return*/, this.rest.createOrder(__assign(__assign(__assign(__assign({}, DEFAULT_OPTIONS), overrides), options), { type: type, side: side, symbol: symbol }))];
+            });
+        });
+    };
     /**
      * Send in a new market buy order with a stop-loss.
      * A stop-loss is a price-target in the unfavourable direction of the current price, relative to your position.

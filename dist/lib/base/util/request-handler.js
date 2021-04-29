@@ -1,19 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -68,17 +53,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __importDefault(require("axios"));
 var crypto_1 = __importDefault(require("crypto"));
 var qs_1 = __importDefault(require("qs"));
+var request_error_1 = __importDefault(require("./request-error"));
 /** Name of the header to assign the API key to */
 var API_KEY_HEADER_NAME = 'X-MBX-APIKEY';
-var RequestError = /** @class */ (function (_super) {
-    __extends(RequestError, _super);
-    function RequestError(name, message) {
-        var _this = _super.call(this, message) || this;
-        _this.name = name;
-        return _this;
-    }
-    return RequestError;
-}(Error));
 /**
  * Handles REST requests to binance by adding the appropriate headers
  * and sending the data to the provided url
@@ -117,7 +94,7 @@ var RequestHandler = /** @class */ (function () {
                     case 3:
                         err_1 = _c.sent();
                         data = err_1.response.data;
-                        throw new RequestError(data.code, data.msg);
+                        throw new request_error_1.default(data.code || err_1.response.statusText, data.msg || err_1.response.status);
                     case 4: return [2 /*return*/];
                 }
             });
@@ -146,7 +123,7 @@ var RequestHandler = /** @class */ (function () {
                     case 3:
                         err_2 = _c.sent();
                         data = err_2.response.data;
-                        throw new RequestError(data.code, data.msg);
+                        throw new request_error_1.default(data.code, data.msg);
                     case 4: return [2 /*return*/];
                 }
             });
