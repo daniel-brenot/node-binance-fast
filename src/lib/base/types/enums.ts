@@ -30,6 +30,8 @@ type OrderResponseType = 'ACK' | 'RESULT' | 'FULL';
 
 type OrderSide = 'BUY' | 'SELL';
 
+type PermissionType = 'SPOT' | 'MARGIN';
+
 /**
  * This sets how long an order will be active before expiration.
  * 

@@ -21,8 +21,8 @@ export default class WebSocketStreamAPI {
      * @param symbol
      */
     onAggTrade(symbol: string) {
-        const PATH = `${symbol.toLowerCase()}@aggTrade`;
-        return this.handler.createWebSocket<AggregateTradePayload>(PATH);
+        const path = `${symbol.toLowerCase()}@aggTrade`;
+        return this.handler.createWebSocket<AggregateTradePayload>(path);
     }
 
     /**
@@ -34,8 +34,8 @@ export default class WebSocketStreamAPI {
      * @param symbol
      */
     onTrade(symbol: string) {
-        const PATH = `${symbol.toLowerCase()}@trade`;
-        return this.handler.createWebSocket<TradePayload>(PATH);
+        const path = `${symbol.toLowerCase()}@trade`;
+        return this.handler.createWebSocket<TradePayload>(path);
     }
 
     /**
@@ -48,8 +48,8 @@ export default class WebSocketStreamAPI {
      * @param interval 
      */
     onKline(symbol: string, interval: ChartInterval) {
-        const PATH = `${symbol.toLowerCase()}@kline_${interval}`;
-        return this.handler.createWebSocket<KlinePayload>(PATH);
+        const path = `${symbol.toLowerCase()}@kline_${interval}`;
+        return this.handler.createWebSocket<KlinePayload>(path);
     }
 
     /**
@@ -62,8 +62,8 @@ export default class WebSocketStreamAPI {
      * @param symbol 
      */
     onMiniTicker(symbol: string) {
-        const PATH = `${symbol.toLowerCase()}@miniTicker`;
-        return this.handler.createWebSocket<MiniTickerPayload>(PATH);
+        const path = `${symbol.toLowerCase()}@miniTicker`;
+        return this.handler.createWebSocket<MiniTickerPayload>(path);
     }
 
     /**
@@ -76,8 +76,8 @@ export default class WebSocketStreamAPI {
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-market-mini-tickers-stream
      */
     onAllMiniTickers() {
-        const PATH = `!miniTicker@arr`;
-        return this.handler.createWebSocket<AllMiniTickersPayload>(PATH);
+        const path = `!miniTicker@arr`;
+        return this.handler.createWebSocket<AllMiniTickersPayload>(path);
     }
 
     /**
@@ -90,8 +90,8 @@ export default class WebSocketStreamAPI {
      * @param symbol
      */
     onTicker(symbol: string) {
-        const PATH = `${symbol}@ticker`;
-        return this.handler.createWebSocket<TickerPayload>(PATH);
+        const path = `${symbol}@ticker`;
+        return this.handler.createWebSocket<TickerPayload>(path);
     }
     
     /**
@@ -104,8 +104,8 @@ export default class WebSocketStreamAPI {
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-market-tickers-stream
      */
     onAllTickers() {
-        const PATH = `!ticker@arr`;
-        return this.handler.createWebSocket<AllTickersPayload>(PATH);
+        const path = `!ticker@arr`;
+        return this.handler.createWebSocket<AllTickersPayload>(path);
     }
 
     /**
@@ -117,8 +117,8 @@ export default class WebSocketStreamAPI {
      * @param symbol
      */
     onBookTicker(symbol: string) {
-        const PATH = `${symbol}@bookTicker`;
-        return this.handler.createWebSocket<BookTickerPayload>(PATH);
+        const path = `${symbol}@bookTicker`;
+        return this.handler.createWebSocket<BookTickerPayload>(path);
     }
 
     /**
@@ -129,8 +129,8 @@ export default class WebSocketStreamAPI {
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-book-tickers-stream
      */
     onAllBookTickers() {
-        const PATH = `!bookTicker`;
-        return this.handler.createWebSocket<AllBookTickersPayload>(PATH);
+        const path = `!bookTicker`;
+        return this.handler.createWebSocket<AllBookTickersPayload>(path);
     }
 
     /**
@@ -144,8 +144,8 @@ export default class WebSocketStreamAPI {
      * @param level 
      */
     onDepthLevelUpdate(symbol: string, level: DepthLevel, updateSpeed?: '100ms') {
-        const PATH = `${symbol.toLowerCase()}@depth${level}${updateSpeed?'@'+updateSpeed:''}`;
-        return this.handler.createWebSocket<DepthLevelUpdatePayload>(PATH);
+        const path = `${symbol.toLowerCase()}@depth${level}${updateSpeed?'@'+updateSpeed:''}`;
+        return this.handler.createWebSocket<DepthLevelUpdatePayload>(path);
     }
 
     /**
@@ -157,8 +157,8 @@ export default class WebSocketStreamAPI {
      * @param symbol 
      */
     onDepthUpdate(symbol: string, updateSpeed?: '100ms') {
-        const PATH = `${symbol.toLowerCase()}@depth${updateSpeed?'@'+updateSpeed:''}`;
-        return this.handler.createWebSocket<DepthUpdatePayload>(PATH);
+        const path = `${symbol.toLowerCase()}@depth${updateSpeed?'@'+updateSpeed:''}`;
+        return this.handler.createWebSocket<DepthUpdatePayload>(path);
     }
 
     /**
@@ -170,7 +170,7 @@ export default class WebSocketStreamAPI {
      * @param streams list of stream names to stream
      */
     onCombinedStream(streams: string[]) {
-        const PATH = `${streams.join('/')}`;
-        return this.handler.createWebSocket<{}>(PATH);
+        const path = `${streams.join('/')}`;
+        return this.handler.createCombinedWebSocket<{}>(path);
     }
 }

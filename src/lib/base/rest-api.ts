@@ -9,7 +9,7 @@ import RequestHandler from "./util/request-handler";
  */
 export default class RESTAPI {
 
-    constructor(private handler: RequestHandler) { }
+    constructor(protected handler: RequestHandler) { }
 
     /**
      * Test connectivity to the REST API.  
