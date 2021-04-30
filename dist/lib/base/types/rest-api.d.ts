@@ -203,7 +203,19 @@ interface QueryExchangeInfoResponse {
     serverTime: number;
     rateLimits: RateLimitType[];
     exchangeFilters: ExchangeFilter[];
-    symbols: SymbolFilter[];
+    symbols: {
+        symbol: string;
+        status: string;
+        baseAsset: string;
+        baseAssetPrecision: number;
+        quoteAsset: string;
+        quoteAssetPrecision: number;
+        orderTypes: OrderType[];
+        icebergAllowed: boolean;
+        ocoAllowed: boolean;
+        filters: SymbolFilter[];
+        permissions: PermissionType[];
+    }[];
 }
 interface QueryDepthResponse {
     lastUpdateId: number;

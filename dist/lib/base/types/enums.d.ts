@@ -14,6 +14,7 @@ declare type LIMIT_MAKER_ORDER = 'LIMIT_MAKER';
 declare type OrderType = LIMIT_ORDER | MARKET_ORDER | STOP_LOSS_ORDER | STOP_LOSS_LIMIT_ORDER | TAKE_PROFIT_ORDER | TAKE_PROFIT_LIMIT_ORDER | LIMIT_MAKER_ORDER;
 declare type OrderResponseType = 'ACK' | 'RESULT' | 'FULL';
 declare type OrderSide = 'BUY' | 'SELL';
+declare type PermissionType = 'SPOT' | 'MARGIN';
 /**
  * This sets how long an order will be active before expiration.
  *

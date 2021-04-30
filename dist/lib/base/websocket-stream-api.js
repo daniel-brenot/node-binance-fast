@@ -21,8 +21,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param symbol
      */
     WebSocketStreamAPI.prototype.onAggTrade = function (symbol) {
-        var PATH = symbol.toLowerCase() + "@aggTrade";
-        return this.handler.createWebSocket(PATH);
+        var path = symbol.toLowerCase() + "@aggTrade";
+        return this.handler.createWebSocket(path);
     };
     /**
      * The Trade Streams push raw trade information; each trade has a unique buyer and seller.
@@ -33,8 +33,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param symbol
      */
     WebSocketStreamAPI.prototype.onTrade = function (symbol) {
-        var PATH = symbol.toLowerCase() + "@trade";
-        return this.handler.createWebSocket(PATH);
+        var path = symbol.toLowerCase() + "@trade";
+        return this.handler.createWebSocket(path);
     };
     /**
      * The Kline/Candlestick Stream push updates to the current klines/candlestick every second.
@@ -46,8 +46,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param interval
      */
     WebSocketStreamAPI.prototype.onKline = function (symbol, interval) {
-        var PATH = symbol.toLowerCase() + "@kline_" + interval;
-        return this.handler.createWebSocket(PATH);
+        var path = symbol.toLowerCase() + "@kline_" + interval;
+        return this.handler.createWebSocket(path);
     };
     /**
      * 24hr rolling window mini-ticker statistics.
@@ -59,8 +59,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param symbol
      */
     WebSocketStreamAPI.prototype.onMiniTicker = function (symbol) {
-        var PATH = symbol.toLowerCase() + "@miniTicker";
-        return this.handler.createWebSocket(PATH);
+        var path = symbol.toLowerCase() + "@miniTicker";
+        return this.handler.createWebSocket(path);
     };
     /**
      * 24hr rolling window mini-ticker statistics for all symbols that changed in an array.
@@ -72,8 +72,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-market-mini-tickers-stream
      */
     WebSocketStreamAPI.prototype.onAllMiniTickers = function () {
-        var PATH = "!miniTicker@arr";
-        return this.handler.createWebSocket(PATH);
+        var path = "!miniTicker@arr";
+        return this.handler.createWebSocket(path);
     };
     /**
      * 24hr rolling window ticker statistics for a single symbol.
@@ -85,8 +85,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param symbol
      */
     WebSocketStreamAPI.prototype.onTicker = function (symbol) {
-        var PATH = symbol + "@ticker";
-        return this.handler.createWebSocket(PATH);
+        var path = symbol + "@ticker";
+        return this.handler.createWebSocket(path);
     };
     /**
      * 24hr rolling window ticker statistics for all symbols that changed in an array.
@@ -98,8 +98,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-market-tickers-stream
      */
     WebSocketStreamAPI.prototype.onAllTickers = function () {
-        var PATH = "!ticker@arr";
-        return this.handler.createWebSocket(PATH);
+        var path = "!ticker@arr";
+        return this.handler.createWebSocket(path);
     };
     /**
      * Pushes any update to the best bid or ask's price or quantity in real-time for a specified symbol.
@@ -110,8 +110,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param symbol
      */
     WebSocketStreamAPI.prototype.onBookTicker = function (symbol) {
-        var PATH = symbol + "@bookTicker";
-        return this.handler.createWebSocket(PATH);
+        var path = symbol + "@bookTicker";
+        return this.handler.createWebSocket(path);
     };
     /**
      * Pushes any update to the best bid or ask's price or quantity in real-time for all symbols.
@@ -121,8 +121,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-book-tickers-stream
      */
     WebSocketStreamAPI.prototype.onAllBookTickers = function () {
-        var PATH = "!bookTicker";
-        return this.handler.createWebSocket(PATH);
+        var path = "!bookTicker";
+        return this.handler.createWebSocket(path);
     };
     /**
      * Top <levels> bids and asks, pushed every second.
@@ -135,8 +135,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param level
      */
     WebSocketStreamAPI.prototype.onDepthLevelUpdate = function (symbol, level, updateSpeed) {
-        var PATH = symbol.toLowerCase() + "@depth" + level + (updateSpeed ? '@' + updateSpeed : '');
-        return this.handler.createWebSocket(PATH);
+        var path = symbol.toLowerCase() + "@depth" + level + (updateSpeed ? '@' + updateSpeed : '');
+        return this.handler.createWebSocket(path);
     };
     /**
      * Order book price and quantity depth updates used to locally manage an order book.
@@ -147,8 +147,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param symbol
      */
     WebSocketStreamAPI.prototype.onDepthUpdate = function (symbol, updateSpeed) {
-        var PATH = symbol.toLowerCase() + "@depth" + (updateSpeed ? '@' + updateSpeed : '');
-        return this.handler.createWebSocket(PATH);
+        var path = symbol.toLowerCase() + "@depth" + (updateSpeed ? '@' + updateSpeed : '');
+        return this.handler.createWebSocket(path);
     };
     /**
      * Multiple streams combined into a single stream
@@ -159,8 +159,8 @@ var WebSocketStreamAPI = /** @class */ (function () {
      * @param streams list of stream names to stream
      */
     WebSocketStreamAPI.prototype.onCombinedStream = function (streams) {
-        var PATH = "" + streams.join('/');
-        return this.handler.createWebSocket(PATH);
+        var path = "" + streams.join('/');
+        return this.handler.createCombinedWebSocket(path);
     };
     return WebSocketStreamAPI;
 }());

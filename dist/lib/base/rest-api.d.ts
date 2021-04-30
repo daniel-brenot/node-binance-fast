@@ -7,7 +7,7 @@ import RequestHandler from "./util/request-handler";
  * https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md
  */
 export default class RESTAPI {
-    private handler;
+    protected handler: RequestHandler;
     constructor(handler: RequestHandler);
     /**
      * Test connectivity to the REST API.
