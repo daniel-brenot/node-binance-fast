@@ -257,7 +257,7 @@ interface QueryExchangeInfoResponse {
         ocoAllowed: boolean;
         filters: SymbolFilter[];
         permissions: PermissionType[]
-    };
+    }[];
 }
 
 interface QueryDepthResponse {
