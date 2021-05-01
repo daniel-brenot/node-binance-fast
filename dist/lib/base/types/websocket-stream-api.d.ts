@@ -175,7 +175,7 @@ declare type BookTickerPayload = {
     /** best ask qty */
     A: string;
 };
-declare type AllBookTickersPayload = BookTickerPayload[];
+declare type AllBookTickersPayload = BookTickerPayload;
 declare type DepthLevelUpdatePayload = {
     /** Last update ID */
     lastUpdateId: number;

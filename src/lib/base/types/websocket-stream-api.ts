@@ -184,7 +184,7 @@ type BookTickerPayload = {
     A: string; 
 };
 
-type AllBookTickersPayload = BookTickerPayload[];
+type AllBookTickersPayload = BookTickerPayload;
 
 type DepthLevelUpdatePayload = {
     /** Last update ID */

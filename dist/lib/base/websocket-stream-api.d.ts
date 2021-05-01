@@ -94,7 +94,7 @@ export default class WebSocketStreamAPI {
      *
      * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-book-tickers-stream
      */
-    onAllBookTickers(): import("./util/json-websocket").default<AllBookTickersPayload>;
+    onAllBookTickers(): import("./util/json-websocket").default<BookTickerPayload>;
     /**
      * Top <levels> bids and asks, pushed every second.
      * Valid levels are 5, 10, or 20.
