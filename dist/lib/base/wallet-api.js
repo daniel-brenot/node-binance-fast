@@ -80,7 +80,7 @@ var WalletAPI = /** @class */ (function () {
      *
      * https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
      */
-    WalletAPI.prototype.getAllCoins = function () {
+    WalletAPI.prototype.getAllCoins = function (params) {
         return __awaiter(this, void 0, void 0, function () {
             var path, weight, method, err_2;
             return __generator(this, function (_a) {
@@ -252,7 +252,7 @@ var WalletAPI = /** @class */ (function () {
         });
     };
     /**
-     * Fetch withdraw history.
+     * Fetch history.
      *
      * Weight: 1
      *

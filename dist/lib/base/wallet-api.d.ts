@@ -19,7 +19,7 @@ export default class WalletAPI {
      *
      * https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
      */
-    getAllCoins(): Promise<void>;
+    getAllCoins(params: GetAllCoinsParams): Promise<void>;
     /**
      *
      *
@@ -53,7 +53,7 @@ export default class WalletAPI {
      */
     getDepositHistory(): Promise<void>;
     /**
-     * Fetch withdraw history.
+     * Fetch history.
      *
      * Weight: 1
      *
