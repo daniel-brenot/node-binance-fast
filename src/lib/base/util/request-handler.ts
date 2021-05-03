@@ -23,19 +23,19 @@ export default class RequestHandler {
      * using the secret key used to initialise the handler.
      * @param data The data to create a signature for
      */
-    protected getSignature(data: string){
+    protected getSignature(data: string) {
         return crypto.createHmac('sha256', this.apiSecret).update(data).digest('hex')
     }
 
     /**
      * 
      */
-    async sendRequest<T>({path, method, weight, params}: {path: string, method: Method, weight: number, params?: {}}): Promise<T>{
+    async sendRequest<T>({ path, method, weight, params }: { path: string, method: Method, weight: number, params?: {} }): Promise<T> {
         const headers = { [API_KEY_HEADER_NAME]: this.apiKey };
         try {
-            return (await axios.request({baseURL: this.baseURL, url: path, method, params, headers})).data as T;
+            return (await axios.request({ baseURL: this.baseURL, url: path, method, params, headers })).data as T;
         } catch (err) {
-            let data = err.response.data ;
+            let data = err.response.data;
             throw new RequestError(data.code || err.response.statusText, data.msg || err.response.status);
         }
     }
@@ -44,12 +44,12 @@ export default class RequestHandler {
      * 
      * Also adds a HMAC-SHA256 signature to the request.
      */
-    async sendSignedRequest<T>({path, method, weight, params}: {path: string, method: Method, weight: number, params?: {}}): Promise<T>{
+    async sendSignedRequest<T>({ path, method, weight, params }: { path: string, method: Method, weight: number, params?: {} }): Promise<T> {
         const headers = { [API_KEY_HEADER_NAME]: this.apiKey };
         const signature = this.getSignature(qs.stringify(params));
         try {
-            params= { signature, ...params };
-            return (await axios.request({baseURL: this.baseURL, url: path, method, params, headers})).data as T;
+            params = { ...params, signature };
+            return (await axios.request({ baseURL: this.baseURL, url: path, method, params, headers })).data as T;
         } catch (err) {
             let data = err.response.data;
             throw new RequestError(data.code, data.msg);
