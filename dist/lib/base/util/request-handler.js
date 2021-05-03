@@ -117,13 +117,13 @@ var RequestHandler = /** @class */ (function () {
                         _c.label = 1;
                     case 1:
                         _c.trys.push([1, 3, , 4]);
-                        params = __assign({ signature: signature }, params);
+                        params = __assign(__assign({}, params), { signature: signature });
                         return [4 /*yield*/, axios_1.default.request({ baseURL: this.baseURL, url: path, method: method, params: params, headers: headers })];
                     case 2: return [2 /*return*/, (_c.sent()).data];
                     case 3:
                         err_2 = _c.sent();
                         data = err_2.response.data;
-                        throw new request_error_1.default(data.code, data.msg);
+                        throw new request_error_1.default(data.code, data.msg, err_2);
                     case 4: return [2 /*return*/];
                 }
             });

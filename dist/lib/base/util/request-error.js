@@ -17,11 +17,12 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var RequestError = /** @class */ (function (_super) {
     __extends(RequestError, _super);
-    function RequestError(code, message) {
+    function RequestError(code, message, oldErr) {
         var _this = _super.call(this, message) || this;
         _this.code = code;
         _this.message = message;
         _this.name = "" + code;
+        _this.oldErr = oldErr;
         return _this;
     }
     return RequestError;
