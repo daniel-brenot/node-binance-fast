@@ -1,8 +1,11 @@
 
 export default class RequestError extends Error {
 
-    constructor(public code: number, public message: string, public oldErr?: any){
+    oldErr?: Error;
+
+    constructor(public code: number, public message: string, oldErr?: any){
         super(message);
         this.name = `${code}`;
+        this.oldErr = oldErr;
     }
 }
