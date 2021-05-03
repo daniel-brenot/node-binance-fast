@@ -52,7 +52,7 @@ export default class RequestHandler {
             return (await axios.request({ baseURL: this.baseURL, url: path, method, params, headers })).data as T;
         } catch (err) {
             let data = err.response.data;
-            throw new RequestError(data.code, data.msg);
+            throw new RequestError(data.code, data.msg, err);
         }
     }
 }
