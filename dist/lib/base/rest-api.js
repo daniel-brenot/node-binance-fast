@@ -147,7 +147,7 @@ var RESTAPI = /** @class */ (function () {
                     case 0:
                         path = 'api/v3/depth';
                         weight = params.limit || 100 / 100;
-                        method = 'POST';
+                        method = 'GET';
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
@@ -174,7 +174,7 @@ var RESTAPI = /** @class */ (function () {
                     case 0:
                         path = 'api/v3/trades';
                         weight = 1;
-                        method = 'POST';
+                        method = 'GET';
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
@@ -201,7 +201,7 @@ var RESTAPI = /** @class */ (function () {
                     case 0:
                         path = 'api/v3/historicalTrades';
                         weight = 5;
-                        method = 'POST';
+                        method = 'GET';
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
@@ -229,7 +229,7 @@ var RESTAPI = /** @class */ (function () {
                     case 0:
                         path = 'api/v3/aggTrades';
                         weight = 1;
-                        method = 'POST';
+                        method = 'GET';
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
