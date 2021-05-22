@@ -65,7 +65,7 @@ export default class RESTAPI {
     async queryDepth(params: QueryDepthParameters) {
         const path = 'api/v3/depth';
         const weight = params.limit || 100 / 100;
-        const method = 'POST';
+        const method = 'GET';
         try {
             return await this.handler.sendRequest<QueryDepthResponse>({ path, weight, method, params });
         } catch (err) { throw err; }
@@ -79,7 +79,7 @@ export default class RESTAPI {
     async queryTrades(params: QueryTradesParameters) {
         const path = 'api/v3/trades';
         const weight = 1;
-        const method = 'POST';
+        const method = 'GET';
         try {
             return await this.handler.sendRequest<QueryTradesResponse>({ path, weight, method, params });
         } catch (err) { throw err; }
@@ -93,7 +93,7 @@ export default class RESTAPI {
     async queryHistoricalTrades(params: QueryHistoricalTradesParameters) {
         const path = 'api/v3/historicalTrades';
         const weight = 5;
-        const method = 'POST';
+        const method = 'GET';
         try {
             return await this.handler.sendRequest<QueryHistoricalTradesResponse>({ path, weight, method, params });
         } catch (err) { throw err; }
@@ -108,7 +108,7 @@ export default class RESTAPI {
     async queryAggTrades(params: QueryAggTradesParameters) {
         const path = 'api/v3/aggTrades';
         const weight = 1;
-        const method = 'POST';
+        const method = 'GET';
         try {
             return await this.handler.sendRequest<QueryAggTradesResponse>({ path, weight, method, params });
         } catch (err) { throw err; }
